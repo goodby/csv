@@ -17,8 +17,11 @@ class Interpreter implements InterpreterInterface
     private $observers = array();
 
     /**
+     * interpret line
+     *
      * @param $line
      * @return void
+     * @throws \Goodby\CSV\Import\Protocol\Exception\InvalidLexicalException
      */
     public function interpret($line)
     {
