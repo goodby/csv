@@ -22,4 +22,21 @@ class LexerTest extends \PHPUnit_Framework_TestCase
 
         $lexer->parse($path, $interpreter);
 	}
+
+    /**
+     * @expectedException Goodby\CSV\Import\Protocol\Exception\CsvFileNotFoundException
+     */
+    public function testCsvFileNotFound()
+    {
+        $lexer       = m::mock('\Goodby\CSV\Import\Protocol\LexerInterface');
+        $interpreter = m::mock('\Goodby\CSV\Import\Protocol\InterpreterInterface');
+
+        $path = 'invalid_dummy.csv';
+
+        $lexer->shouldReceive('parse')
+              ->with($path, $interpreter)
+              ->andThrow('Goodby\CSV\Import\Protocol\Exception\CsvFileNotFoundException');
+
+        $lexer->parse($path, $interpreter);
+    }
 }
