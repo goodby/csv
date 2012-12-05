@@ -2,18 +2,18 @@
 
 namespace Goodby\CSV\Import\Protocol;
 
+use Goodby\CSV\Import\Protocol\Exception\CsvFileNotFoundException;
+
 /**
  * Interface of Lexer
- *
- * @author suin
  */
 interface LexerInterface
 {
     /**
-     * @param $path
+     * @param string $path
      * @param InterpreterInterface $interpreter
      * @return boolean
-     * @throw Goodby\CSV\Import\Protocol\Exception\CsvFileNotFoundException
+     * @throws CsvFileNotFoundException
      */
     public function parse($path, InterpreterInterface $interpreter);
 }
