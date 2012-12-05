@@ -53,4 +53,15 @@ class ConvertMbstringEncodingTest extends \PHPUnit_Framework_TestCase
         $filter->filtername = $filterString;
         $this->assertFalse($filter->onCreate());
     }
+
+    public function test_register_filter()
+    {
+        ConvertMbstringEncoding::register();
+        $filterName = ConvertMbstringEncoding::getFilterName();
+        $registeredFilters = stream_get_filters();
+        $this->assertTrue(in_array($filterName, $registeredFilters));
+
+        $this->setExpectedException('RuntimeException', "Failed to register stream filter: ".$filterName);
+        ConvertMbstringEncoding::register();
+    }
 }

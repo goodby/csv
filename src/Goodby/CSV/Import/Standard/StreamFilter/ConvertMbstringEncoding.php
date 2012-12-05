@@ -3,6 +3,7 @@
 namespace Goodby\CSV\Import\Standard\StreamFilter;
 
 use php_user_filter;
+use RuntimeException;
 
 class ConvertMbstringEncoding extends php_user_filter
 {
@@ -10,6 +11,11 @@ class ConvertMbstringEncoding extends php_user_filter
      * @var string
      */
     const FILTER_NAMESPACE = 'convert.mbstring.encoding.';
+
+    /**
+     * @var bool
+     */
+    private $hasBeenRegistered = false;
 
     /**
      * @var string
@@ -22,11 +28,23 @@ class ConvertMbstringEncoding extends php_user_filter
     private $toCharset;
 
     /**
+     * Return filter name
      * @return string
      */
     public static function getFilterName()
     {
         return self::FILTER_NAMESPACE.'*';
+    }
+
+    /**
+     * Register this class as a stream filter
+     * @throws \RuntimeException
+     */
+    public static function register()
+    {
+        if ( stream_filter_register(self::getFilterName(), __CLASS__) === false ) {
+            throw new RuntimeException('Failed to register stream filter: '.self::getFilterName());
+        }
     }
 
     /**
