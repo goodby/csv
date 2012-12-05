@@ -20,6 +20,16 @@ class Config
     private $escape = '\\';
 
     /**
+     * @var string
+     */
+    private $fromCharset = 'auto';
+
+    /**
+     * @var string
+     */
+    private $toCharset;
+
+    /**
      * Set delimiter
      * @param string $delimiter
      * @return Config
@@ -77,5 +87,27 @@ class Config
     public function getEscape()
     {
         return $this->escape;
+    }
+
+    public function setFromCharset($fromCharset)
+    {
+        $this->fromCharset = $fromCharset;
+        return $this;
+    }
+
+    public function getFromCharset()
+    {
+        return $this->fromCharset;
+    }
+
+    public function setToCharset($toCharset)
+    {
+        $this->toCharset = $toCharset;
+        return $this;
+    }
+
+    public function getToCharset()
+    {
+        return $this->toCharset;
     }
 }

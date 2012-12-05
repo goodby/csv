@@ -33,7 +33,7 @@ class Interpreter implements InterpreterInterface
     }
 
     /**
-     * add obvserver
+     * add observer
      *
      * @param callable $observer
      */

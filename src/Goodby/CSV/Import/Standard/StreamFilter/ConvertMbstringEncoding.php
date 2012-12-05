@@ -15,7 +15,7 @@ class ConvertMbstringEncoding extends php_user_filter
     /**
      * @var bool
      */
-    private $hasBeenRegistered = false;
+    private static $hasBeenRegistered = false;
 
     /**
      * @var string
@@ -42,8 +42,30 @@ class ConvertMbstringEncoding extends php_user_filter
      */
     public static function register()
     {
+        if ( self::$hasBeenRegistered === true ) {
+            return;
+        }
+
         if ( stream_filter_register(self::getFilterName(), __CLASS__) === false ) {
             throw new RuntimeException('Failed to register stream filter: '.self::getFilterName());
+        }
+
+        self::$hasBeenRegistered = true;
+    }
+
+    /**
+     * Return filter URL
+     * @param string $filename
+     * @param string $fromCharset
+     * @param string $toCharset
+     * @return string
+     */
+    public static function getFilterURL($filename, $fromCharset, $toCharset = null)
+    {
+        if ( $toCharset === null ) {
+            return sprintf('php://filter/convert.mbstring.encoding.%s/resource=%s', $fromCharset, $filename);
+        } else {
+            return sprintf('php://filter/convert.mbstring.encoding.%s:%s/resource=%s', $fromCharset, $toCharset, $filename);
         }
     }
 
