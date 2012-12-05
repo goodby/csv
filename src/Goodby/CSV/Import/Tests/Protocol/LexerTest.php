@@ -1,6 +1,6 @@
 <?php
 
-namespace Goodby\CSV\Import\Tests;
+namespace Goodby\CSV\Import\Tests\Protocol;
 
 use Mockery as m;
 
