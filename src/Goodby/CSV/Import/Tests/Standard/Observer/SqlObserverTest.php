@@ -19,7 +19,10 @@ class SqlObserverTest extends \PHPUnit_Framework_TestCase
         $tempDir = sys_get_temp_dir();
 
         $path = $tempDir . DIRECTORY_SEPARATOR . 'test.sql';
-        unlink($path);
+
+        if (file_exists($path)) {
+            unlink($path);
+        }
 
         $sqlObserver = new SqlObserver('test', array('id', 'name', 'age', 'flag', 'flag2', 'status', 'contents'), $path);
 
