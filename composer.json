@@ -1,8 +1,8 @@
 {
-    "name": "boodby/csv",
+    "name": "goodby/csv",
     "description": "CSV import/export library",
     "keywords": ["csv", "import", "export"],
-    "homepage": "https://github.com/boodby/csv",
+    "homepage": "https://github.com/goodby/csv",
     "license": "MIT",
     "require": {
         "php": ">=5.3.2"
