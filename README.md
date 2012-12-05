@@ -1,6 +1,6 @@
 # Goodby, CSV!
 
-
+[![Build Status](https://secure.travis-ci.org/goodby/csv.png?branch=master)](https://travis-ci.org/goodby/csv)
 
 ## Contribution
 
