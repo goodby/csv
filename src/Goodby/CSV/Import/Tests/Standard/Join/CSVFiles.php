@@ -34,4 +34,17 @@ class CSVFiles
             array('value4', 'value5', 'value6'),
         );
     }
+
+    public static function getColonSeparatedCsv()
+    {
+        return __DIR__.'/csv_files/colon-separated.csv';
+    }
+
+    public static function getColonSeparatedLines()
+    {
+        return array(
+            array('value1', 'value2', 'value3'),
+            array('value4', 'value5', 'value6'),
+        );
+    }
 }

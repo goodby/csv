@@ -61,4 +61,19 @@ class LexerTest extends \PHPUnit_Framework_TestCase
         $lexer = new Lexer($config);
         $lexer->parse($csv, $interpreter);
     }
+
+    public function test_colon_separated_csv()
+    {
+        $csv   = CSVFiles::getColonSeparatedCsv();
+        $lines = CSVFiles::getColonSeparatedLines();
+
+        $interpreter = $this->getMock('Goodby\CSV\Import\Standard\Interpreter', array('interpret'));
+        $interpreter->expects($this->at(0))->method('interpret')->with($lines[0]);
+        $interpreter->expects($this->at(1))->method('interpret')->with($lines[1]);
+
+        $config = new Config();
+        $config->setDelimiter(':');
+        $lexer = new Lexer($config);
+        $lexer->parse($csv, $interpreter);
+    }
 }
