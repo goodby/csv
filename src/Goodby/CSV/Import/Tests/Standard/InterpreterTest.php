@@ -20,7 +20,7 @@ class InterpreterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @version 5.4
+     * @requires PHP 5.4
      */
     public function testStandardInterpreterWithClosure()
 	{
