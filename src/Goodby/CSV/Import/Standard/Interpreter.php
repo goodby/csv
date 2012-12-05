@@ -3,10 +3,10 @@
 namespace Goodby\CSV\Import\Standard;
 
 use Goodby\CSV\Import\Protocol\InterpreterInterface;
-use Expose\ReflectionClass;
 use Goodby\CSV\Import\Protocol\Exception\InvalidLexicalException;
 
 /**
+ * standard interpreter
  *
  */
 class Interpreter implements InterpreterInterface
