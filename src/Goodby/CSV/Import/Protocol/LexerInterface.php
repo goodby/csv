@@ -10,10 +10,11 @@ use Goodby\CSV\Import\Protocol\Exception\CsvFileNotFoundException;
 interface LexerInterface
 {
     /**
-     * @param string $path
+     * Parse csv file
+     * @param string $filename
      * @param InterpreterInterface $interpreter
      * @return boolean
      * @throws CsvFileNotFoundException
      */
-    public function parse($path, InterpreterInterface $interpreter);
+    public function parse($filename, InterpreterInterface $interpreter);
 }
