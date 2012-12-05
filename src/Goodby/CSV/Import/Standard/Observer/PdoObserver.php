@@ -2,33 +2,35 @@
 
 namespace Goodby\CSV\Import\Standard\Observer;
 
-class SqlObserver
+class PdoObserver
 {
     private $table;
     private $columns;
-    private $path;
 
-    private $file = null;
+    private $dsn;
+    private $options = null;
 
-    public function __construct($table, $columns, $path)
+    private $pdo = null;
+
+    public function __construct($table, $columns, $dsn, $options)
     {
         $this->table = $table;
         $this->columns = $columns;
-        $this->path = $path;
+
+        $this->dsn = $dsn;
+        $this->options = $options;
     }
 
     public function notify($line)
     {
-        $sql = $this->buildSql($line);
-
-        if ($this->file === null) {
-            $this->file = new \SplFileObject($this->path, 'a');
+        if ($this->pdo === null) {
+            $this->pdo = new \PDO($this->dsn, $this->options['user'], $this->options['password']);
         }
 
-        $this->file->fwrite($sql);
+        $this->execute($line);
     }
 
-    private function buildSql($line)
+    private function execute($line)
     {
         $line = array_map(function($value) {
             $number = filter_var($value, FILTER_VALIDATE_INT);
@@ -43,20 +45,27 @@ class SqlObserver
                 }
 
                 if (strtolower($value) === 'true') {
-                    return 'true';
+                    return 1;
                 }
 
                 if (strtolower($value) === 'false') {
-                    return 'false';
+                    return 0;
                 }
 
-                return '"' . addslashes($value) . '"';
+                return $value;
             }
 
             throw new \InvalidArgumentException('value is invalid: ' . var_export($value, 1));
         }, $line);
 
-        return 'INSERT INTO ' . $this->table . '(' . join(', ', $this->columns) . ')' .
-               ' VALUES(' . join(', ', $line) . ');';
+        $prepare = array_map(function() {
+            return '?';
+        }, $line);
+
+        $sql = 'INSERT INTO ' . $this->table . '(' . join(', ', $this->columns) . ')' .
+               ' VALUES(' . join(',', $prepare) . ')';
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($line);
     }
 }
