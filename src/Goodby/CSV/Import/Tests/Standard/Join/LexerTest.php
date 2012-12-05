@@ -32,4 +32,18 @@ class LexerTest extends \PHPUnit_Framework_TestCase
         $lexer = new Lexer($config);
         $lexer->parse($shiftJisCsv, $interpreter);
     }
+
+    public function test_mac_excel_csv()
+    {
+        $csv   = CSVFiles::getMacExcelCsv();
+        $lines = CSVFiles::getMacExcelLines();
+
+        $interpreter = $this->getMock('Goodby\CSV\Import\Standard\Interpreter', array('interpret'));
+        $interpreter->expects($this->at(0))->method('interpret')->with($lines[0]);
+        $interpreter->expects($this->at(1))->method('interpret')->with($lines[1]);
+
+        $config = new Config();
+        $lexer = new Lexer($config);
+        $lexer->parse($csv, $interpreter);
+    }
 }
