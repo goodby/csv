@@ -61,11 +61,20 @@ Csv is open-sourced software licensed under the MIT License - see the LICENSE fi
 
 ### Import to Database via PDO
 
+user.csv:
+
+```
+1,alice,alice@example.com
+2,bob,bob@example.com
+3,carol,carol@eample.com
+```
+
 ```php
 <?php
 
 use Goodby\CSV\Import\Standard\Lexer;
 use Goodby\CSV\Import\Standard\Interpreter;
+use Goodby\CSV\Import\Standard\LexerConfig;
 
 $pdo = new PDO('mysql:host=localhost;dbname=test', 'root', 'root');
 $pdo->query('CREATE TABLE IF NOT EXISTS user (id INT, `name` VARCHAR(255), email VARCHAR(255))');
@@ -82,6 +91,43 @@ $interpreter->addObserver(function(array $columns) use ($pdo) {
 
 $lexer->parse('user.csv', $interpreter);
 
+```
+
+### Import form TSV(tab separated values) to array
+
+temperature.tsv:
+
+```
+9	Tokyo
+27	Singapore
+-5	Seoul
+7	Shanghai
+```
+
+```php
+<?php
+
+use Goodby\CSV\Import\Standard\Lexer;
+use Goodby\CSV\Import\Standard\Interpreter;
+use Goodby\CSV\Import\Standard\LexerConfig;
+
+$temperature = array();
+
+$config = new LexerConfig();
+$config->setDelimiter("\t");
+$lexer = new Lexer($config);
+
+$interpreter = new Interpreter();
+$interpreter->addObserver(function(array $row) use (&$temperature) {
+    $temperature[] = array(
+        'temperature' => $row[0],
+        'city'        => $row[1],
+    );
+});
+
+$lexer->parse('temperature.tsv', $interpreter);
+
+print_r($temperature);
 ```
 
 ### Export from array
@@ -110,7 +156,6 @@ $exporter->export('php://output', array(
 
 use Goodby\CSV\Export\Standard\Exporter;
 use Goodby\CSV\Export\Standard\ExporterConfig;
-
 use Goodby\CSV\Export\Standard\Collection\PdoCollection;
 
 $pdo = new PDO('mysql:host=localhost;dbname=test', 'root', 'root');
