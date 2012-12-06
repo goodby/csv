@@ -1,6 +1,6 @@
 <?php
 
-namespace Goodby\CSV\Import\Tests\Standard\StreamFilter;
+namespace Goodby\CSV\Import\Tests\Standard\Unit\StreamFilter;
 
 use Expose\Expose as e;
 use Goodby\CSV\Import\Standard\StreamFilter\ConvertMbstringEncoding;
