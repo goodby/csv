@@ -66,27 +66,22 @@ class PdoObserverTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('test"test', $result[6]);
     }
 
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage value is invalid: array
+     */
     public function testInvalidLine()
     {
         $interpreter = new Interpreter();
 
         $table = 'test';
 
-        $options = array('user' => $this->manager->getPassword(), 'password' => $this->manager->getPassword());
+        $options = array('user' => $this->manager->getUser(), 'password' => $this->manager->getPassword());
 
         $sqlObserver = new PdoObserver($table, array('id', 'name'), $this->manager->getDsn(), $options);
 
         $interpreter->addObserver(array($sqlObserver, 'notify'));
 
-        $exception = null;
-
-        try {
-            $interpreter->interpret(array('123', array('test', 'test')));
-        } catch ( \Exception $exception ) {
-
-        }
-
-        $this->assertContains('value is invalid: ', $exception->getMessage());
-        $this->assertTrue($exception instanceof \InvalidArgumentException);
+        $interpreter->interpret(array('123', array('test', 'test')));
     }
 }
