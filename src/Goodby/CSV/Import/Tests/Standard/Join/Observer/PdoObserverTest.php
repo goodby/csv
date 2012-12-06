@@ -86,7 +86,7 @@ class PdoObserverTest extends \PHPUnit_Framework_TestCase
 
         }
 
-        $this->assertTrue($exception instanceof \InvalidArgumentException);
         $this->assertContains('value is invalid: ', $exception->getMessage());
+        $this->assertTrue($exception instanceof \InvalidArgumentException);
     }
 }
