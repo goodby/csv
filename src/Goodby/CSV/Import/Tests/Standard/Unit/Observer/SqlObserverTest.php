@@ -34,4 +34,18 @@ class SqlObserverTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($expectedSql, file_get_contents($path));
     }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testInvalidLine()
+    {
+        $interpreter = new Interpreter();
+
+        $sqlObserver = new SqlObserver('test', array('id', 'name'), 'dummy');
+
+        $interpreter->addObserver(array($sqlObserver, 'notify'));
+
+        $interpreter->interpret(array('123', array('test')));
+    }
 }

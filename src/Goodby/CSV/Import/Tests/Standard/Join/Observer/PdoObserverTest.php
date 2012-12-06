@@ -68,6 +68,25 @@ class PdoObserverTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('test"test', $result[6]);
     }
 
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testInvalidLine()
+    {
+        $interpreter = new Interpreter();
+
+        $table = 'test';
+
+        $dsn = 'mysql:dbname=' . $this->db . ';host=' . $this->host;
+        $options = array('user' => $this->user, 'password' => $this->pass);
+
+        $sqlObserver = new PdoObserver($table, array('id', 'name'), $dsn, $options);
+
+        $interpreter->addObserver(array($sqlObserver, 'notify'));
+
+        $interpreter->interpret(array('123', array('test', 'test')));
+    }
+
     private function getPdo()
     {
         $dsn = 'mysql:dbname=' . $this->db . ';host=' . $this->host;

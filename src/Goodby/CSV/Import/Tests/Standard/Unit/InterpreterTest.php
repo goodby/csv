@@ -117,4 +117,16 @@ class InterpreterTest extends \PHPUnit_Framework_TestCase
 
         $interpreter->interpret($this->expectedLine);
     }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testInvalidCallbale()
+    {
+        $interpreter = new Interpreter();
+
+        $interpreter->addObserver('dummy');
+
+        $interpreter->interpret($this->expectedLine);
+    }
 }
