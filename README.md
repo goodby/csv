@@ -45,7 +45,55 @@ Csv is open-sourced software licensed under the MIT License - see the LICENSE fi
 
 ## Documentation
 
-editing...
+### Memory Management Free
+
+This library designed for memory unbreakable.
+every each line processsing line by line.
+
+It will not be accumulated in the memory whole rows.
+
+### Import to Database via PDO
+
+```php
+<?php
+
+use Goodby\CSV\Import\Standard\Lexer;
+use Goodby\CSV\Import\Standard\Interpreter;
+
+$pdo = new PDO('mysql:host=localhost;dbname=test', 'root', 'root');
+$pdo->query('CREATE TABLE IF NOT EXISTS user (id INT, `name` VARCHAR(255), email VARCHAR(255))');
+
+$config = new LexerConfig();
+$lexer = new Lexer($config);
+
+$interpreter = new Interpreter();
+
+$interpreter->addObserver(function(array $columns) use ($pdo) {
+    $stmt = $pdo->prepare('INSERT INTO user (id, name, email) VALUES (?, ?, ?)');
+    $stmt->execute($columns);
+});
+
+$lexer->parse('user.csv', $interpreter);
+
+```
+
+### Export from array
+
+```php
+<?php
+
+use Goodby\CSV\Export\Standard\Exporter;
+use Goodby\CSV\Export\Standard\ExporterConfig;
+
+$config = new ExporterConfig();
+$exporter = new Exporter($config);
+
+$exporter->export('php://output', array(
+    array('1', 'alice', 'alice@example.com'),
+    array('2', 'bob', 'bob@example.com'),
+    array('3', 'carol', 'carol@example.com'),
+));
+```
 
 
 ## Contributing
