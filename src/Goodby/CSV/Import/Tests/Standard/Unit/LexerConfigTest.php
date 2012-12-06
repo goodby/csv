@@ -4,7 +4,7 @@ namespace Goodby\CSV\Import\Tests\Standard\Unit;
 
 use Goodby\CSV\Import\Standard\LexerConfig;
 
-class ConfigTest extends \PHPUnit_Framework_TestCase
+class LexerConfigTest extends \PHPUnit_Framework_TestCase
 {
     public function testDelimiter()
     {
@@ -26,5 +26,19 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $config = new LexerConfig();
         $this->assertSame('\\', $config->getEscape());
         $this->assertSame('esc', $config->setEscape('esc')->getEscape());
+    }
+
+    public function testFromCharset()
+    {
+        $config = new LexerConfig();
+        $this->assertSame('auto', $config->getFromCharset());
+        $this->assertSame('UTF-8', $config->setFromCharset('UTF-8')->getFromCharset());
+    }
+
+    public function testToCharset()
+    {
+        $config = new LexerConfig();
+        $this->assertSame(null, $config->getToCharset());
+        $this->assertSame('UTF-8', $config->setToCharset('UTF-8')->getToCharset());
     }
 }

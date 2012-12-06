@@ -32,6 +32,18 @@ class ExporterConfig
     private $newline = "\r\n";
 
     /**
+     * From charset
+     * @var string
+     */
+    private $fromCharset = 'auto';
+
+    /**
+     * To charset
+     * @var string
+     */
+    private $toCharset = null;
+
+    /**
      * Set delimiter
      * @param string $delimiter
      * @return ExporterConfig
@@ -109,5 +121,45 @@ class ExporterConfig
     public function getNewline()
     {
         return $this->newline;
+    }
+
+    /**
+     * Set from-character set
+     * @param string $fromCharset
+     * @return ExporterConfig
+     */
+    public function setFromCharset($fromCharset)
+    {
+        $this->fromCharset = $fromCharset;
+        return $this;
+    }
+
+    /**
+     * Return from-character set
+     * @return string
+     */
+    public function getFromCharset()
+    {
+        return $this->fromCharset;
+    }
+
+    /**
+     * Set to-character set
+     * @param string $toCharset
+     * @return ExporterConfig
+     */
+    public function setToCharset($toCharset)
+    {
+        $this->toCharset = $toCharset;
+        return $this;
+    }
+
+    /**
+     * Return to-character set
+     * @return string
+     */
+    public function getToCharset()
+    {
+        return $this->toCharset;
     }
 }

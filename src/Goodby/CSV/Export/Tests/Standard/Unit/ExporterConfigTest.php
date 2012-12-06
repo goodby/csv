@@ -33,4 +33,18 @@ class ExporterConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertSame("\r\n", $config->getNewline());
         $this->assertSame("\r", $config->setNewline("\r")->getNewline());
     }
+
+    public function testFromCharset()
+    {
+        $config = new ExporterConfig();
+        $this->assertSame('auto', $config->getFromCharset());
+        $this->assertSame('UTF-8', $config->setFromCharset('UTF-8')->getFromCharset());
+    }
+
+    public function testToCharset()
+    {
+        $config = new ExporterConfig();
+        $this->assertSame(null, $config->getToCharset());
+        $this->assertSame('UTF-8', $config->setToCharset('UTF-8')->getToCharset());
+    }
 }

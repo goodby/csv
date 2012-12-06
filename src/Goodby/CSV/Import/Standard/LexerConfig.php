@@ -92,23 +92,41 @@ class LexerConfig
         return $this->escape;
     }
 
+    /**
+     * Set from-character set
+     * @param string $fromCharset
+     * @return LexerConfig
+     */
     public function setFromCharset($fromCharset)
     {
         $this->fromCharset = $fromCharset;
         return $this;
     }
 
+    /**
+     * Return from-character set
+     * @return string
+     */
     public function getFromCharset()
     {
         return $this->fromCharset;
     }
 
+    /**
+     * Set to-character set
+     * @param string $toCharset
+     * @return LexerConfig
+     */
     public function setToCharset($toCharset)
     {
         $this->toCharset = $toCharset;
         return $this;
     }
 
+    /**
+     * Return to-character set
+     * @return string
+     */
     public function getToCharset()
     {
         return $this->toCharset;
