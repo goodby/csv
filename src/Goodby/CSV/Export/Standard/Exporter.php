@@ -57,12 +57,15 @@ class Exporter implements ExporterInterface
             throw new IOException($lastError['message']);
         }
 
-        $delimiter = $this->config->getDelimiter();
-        $enclosure = $this->config->getEnclosure();
-        $newline   = $this->config->getNewline();
+        $delimiter   = $this->config->getDelimiter();
+        $enclosure   = $this->config->getEnclosure();
+        $newline     = $this->config->getNewline();
+        $fromCharset = $this->config->getFromCharset();
+        $toCharset   = $this->config->getToCharset();
 
         foreach ( $rows as $row ) {
             $this->checkRowConsistency($row);
+            $row = $this->convertEncoding($row, $toCharset, $fromCharset);
             fputcsv($pointer, $row, $delimiter, $enclosure);
             $this->replaceNewline($pointer, $newline);
         }
@@ -108,5 +111,22 @@ class Exporter implements ExporterInterface
         }
 
         $this->rowConsistency = $current;
+    }
+
+    /**
+     * @param array $columns
+     * @param string $to
+     * @param string $from
+     * @return array
+     */
+    private function convertEncoding($columns, $to, $from)
+    {
+        if ( $to === null ) {
+            return $columns;
+        }
+
+        return array_map(function($column) use($to, $from) {
+            return mb_convert_encoding($column, $to, $from);
+        }, $columns);
     }
 }

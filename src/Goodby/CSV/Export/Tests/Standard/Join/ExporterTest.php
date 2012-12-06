@@ -108,4 +108,38 @@ class ExporterTest extends \PHPUnit_Framework_TestCase
             array('a', 'b', 'c'),
         ));
     }
+
+    public function test_encoding()
+    {
+        $csv = 'vfs://output/euc.csv';
+        $this->assertFileNotExists($csv);
+
+        $config = new ExporterConfig();
+        $config->setToCharset('EUC-JP');
+        $config->setNewline("\n");
+        $exporter = new Exporter($config);
+
+        $exporter->export($csv, array(
+            array('あ', 'い', 'う', 'え', 'お'),
+        ));
+
+        $this->assertFileEquals(__DIR__.'/csv_files/euc-jp.csv', $csv);
+    }
+
+    public function test_without_encoding()
+    {
+        $csv = 'vfs://output/utf-8.csv';
+        $this->assertFileNotExists($csv);
+
+        $config = new ExporterConfig();
+        $config->setNewline("\n");
+        $exporter = new Exporter($config);
+
+        $exporter->export($csv, array(
+            array('✔', '✔', '✔'),
+            array('★', '★', '★'),
+        ));
+
+        $this->assertFileEquals(__DIR__.'/csv_files/utf-8.csv', $csv);
+    }
 }
