@@ -47,4 +47,18 @@ class CSVFiles
             array('value4', 'value5', 'value6'),
         );
     }
+
+    public static function getUtf8Csv()
+    {
+        return __DIR__.'/csv_files/utf-8.csv';
+    }
+
+    public static function getUtf8Lines()
+    {
+        return array(
+            array('✔', '✔', '✔', '✔'),
+            array('★', '★', '★', '★'),
+            array('유', '니', '코', '드'),
+        );
+    }
 }

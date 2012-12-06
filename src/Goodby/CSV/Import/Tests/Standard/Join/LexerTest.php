@@ -76,4 +76,18 @@ class LexerTest extends \PHPUnit_Framework_TestCase
         $lexer = new Lexer($config);
         $lexer->parse($csv, $interpreter);
     }
+
+    public function test_utf8_csv()
+    {
+        $csv   = CSVFiles::getUtf8Csv();
+        $lines = CSVFiles::getUtf8Lines();
+
+        $interpreter = $this->getMock('Goodby\CSV\Import\Standard\Interpreter', array('interpret'));
+        $interpreter->expects($this->at(0))->method('interpret')->with($lines[0]);
+        $interpreter->expects($this->at(1))->method('interpret')->with($lines[1]);
+
+        $config = new LexerConfig();
+        $lexer = new Lexer($config);
+        $lexer->parse($csv, $interpreter);
+    }
 }
