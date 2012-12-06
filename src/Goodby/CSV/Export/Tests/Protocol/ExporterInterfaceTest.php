@@ -2,8 +2,6 @@
 
 namespace Goodby\CSV\Export\Tests\Protocol;
 
-use Mockery as m;
-use Goodby\CSV\Export\Protocol\ExporterInterface;
 use Goodby\CSV\Export\Protocol\Exception\IOException;
 
 class ExporterInterfaceTest extends \PHPUnit_Framework_TestCase
