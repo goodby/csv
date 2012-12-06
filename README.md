@@ -2,9 +2,13 @@
 
 [![Build Status](https://secure.travis-ci.org/goodby/csv.png?branch=master)](https://travis-ci.org/goodby/csv)
 
-## What is Csv?
+## What is "Goodby CSV"?
 
-editing...
+Goodby CSV is a flexible and extendable open-source CSV import/export library.
+
+```php
+// Sample code... writing...
+```
 
 ## Requirements
 

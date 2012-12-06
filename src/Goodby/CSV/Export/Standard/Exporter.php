@@ -85,7 +85,12 @@ class Exporter implements ExporterInterface
          * has hardcoded "\n", this method seek one character back
          * and replace newline code with what client code wish.
          */
-        fseek($pointer, ftell($pointer) - 1);
+        $result = @fseek($pointer, ftell($pointer) - 1);
+
+        if ( $result === -1 ) {
+            return; // case: php://output, php://stdout and so on
+        }
+
         fputs($pointer, $newline);
     }
 
