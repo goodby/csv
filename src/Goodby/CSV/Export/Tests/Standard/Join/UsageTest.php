@@ -11,6 +11,7 @@ use Goodby\CSV\TestHelper\DbManager;
 
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
+use Goodby\CSV\Export\Standard\Collection\CallbackCollection;
 
 class UsageTest extends \PHPUnit_Framework_TestCase
 {
@@ -66,4 +67,29 @@ class UsageTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame($expectedContents, file_get_contents('vfs://output/data.csv'));
 	}
+
+    public function testUsageWithCallbackCollection()
+    {
+        $this->assertFileNotExists('vfs://output/data.csv');
+
+        $data = array();
+        $data[] = array(1, 'name1');
+        $data[] = array(2, 'name2');
+        $data[] = array(3, 'name3');
+
+        $collection = new CallbackCollection($data, function($row) {
+            $row[1] = $row[1] . '!';
+            return $row;
+        });
+
+        $config = new ExporterConfig();
+        $exporter = new Exporter($config);
+        $exporter->export('vfs://output/data.csv', $collection);
+
+        $expectedContents  = "1,name1!\r\n";
+        $expectedContents .= "2,name2!\r\n";
+        $expectedContents .= "3,name3!\r\n";
+
+        $this->assertSame($expectedContents, file_get_contents('vfs://output/data.csv'));
+    }
 }
