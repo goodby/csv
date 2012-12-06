@@ -5,6 +5,8 @@ namespace Goodby\CSV\Export\Tests\Standard\Join\Collection;
 use Goodby\CSV\Export\Standard\Collection\PdoCollection;
 use Goodby\CSV\TestHelper\DbManager;
 
+use Goodby\CSV\Export\Standard\Collection\CallbackCollection;
+
 class PdoCollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -42,6 +44,25 @@ class PdoCollectionTest extends \PHPUnit_Framework_TestCase
 
         foreach ($pdoCollection as $line) {
             $this->assertEquals("name", $line["name"]);
+        }
+    }
+
+    public function testUsageWithCallbackCollection()
+    {
+        $pdo = $this->manager->getPdo();
+
+        $stmt = $pdo->prepare("SELECT * FROM collection_test");
+        $stmt->execute();
+
+        $pdoCollection = new PdoCollection($stmt);
+
+        $callbackCollection = new CallbackCollection($pdoCollection, function($row) {
+            $row['test'] = 'test';
+            return $row;
+        });
+
+        foreach ($callbackCollection as $line) {
+            $this->assertEquals('test', $line['test']);
         }
     }
 }
