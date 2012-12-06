@@ -89,10 +89,6 @@ class ExporterTest extends \PHPUnit_Framework_TestCase
         ));
     }
 
-    /**
-     * @expectedException \Goodby\CSV\Export\Protocol\Exception\IOException
-     * @expectedExceptionMessage failed to open
-     */
     public function test_throwing_IOException_when_failed_to_write_file()
     {
         $noWritableCsv = 'vfs://output/no-writable.csv';
@@ -104,9 +100,18 @@ class ExporterTest extends \PHPUnit_Framework_TestCase
         $config = new ExporterConfig();
         $exporter = new Exporter($config);
 
-        $exporter->export($noWritableCsv, array(
-            array('a', 'b', 'c'),
-        ));
+        $e = null;
+
+        try {
+            $exporter->export($noWritableCsv, array(
+                array('a', 'b', 'c'),
+            ));
+        } catch ( IOException $e ) {
+
+        }
+
+        $this->assertTrue($e instanceof IOException);
+        $this->assertContains('failed to open', $e->getMessage());
     }
 
     public function test_encoding()
