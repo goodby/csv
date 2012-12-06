@@ -66,9 +66,6 @@ class PdoObserverTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('test"test', $result[6]);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testInvalidLine()
     {
         $interpreter = new Interpreter();
@@ -81,6 +78,14 @@ class PdoObserverTest extends \PHPUnit_Framework_TestCase
 
         $interpreter->addObserver(array($sqlObserver, 'notify'));
 
-        $interpreter->interpret(array('123', array('test', 'test')));
+        $exception = null;
+
+        try {
+            $interpreter->interpret(array('123', array('test', 'test')));
+        } catch ( \Exception $exception ) {
+
+        }
+
+        $this->assertTrue($exception instanceof \InvalidArgumentException);
     }
 }
