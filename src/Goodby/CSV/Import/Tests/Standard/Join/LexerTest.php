@@ -5,7 +5,7 @@ namespace Goodby\CSV\Import\Tests\Standard\Join;
 use Mockery as m;
 use Goodby\CSV\Import\Standard\Lexer;
 use Goodby\CSV\Import\Standard\Interpreter;
-use Goodby\CSV\Import\Standard\Config;
+use Goodby\CSV\Import\Standard\LexerConfig;
 
 use Goodby\CSV\Import\Tests\Standard\Join\CSVFiles;
 
@@ -27,7 +27,7 @@ class LexerTest extends \PHPUnit_Framework_TestCase
         $interpreter->expects($this->at(2))->method('interpret')->with($lines[2]);
         $interpreter->expects($this->at(3))->method('interpret')->with($lines[3]);
 
-        $config = new Config();
+        $config = new LexerConfig();
         $config->setToCharset('UTF-8')->setFromCharset('SJIS-win');
         $lexer = new Lexer($config);
         $lexer->parse($shiftJisCsv, $interpreter);
@@ -42,7 +42,7 @@ class LexerTest extends \PHPUnit_Framework_TestCase
         $interpreter->expects($this->at(0))->method('interpret')->with($lines[0]);
         $interpreter->expects($this->at(1))->method('interpret')->with($lines[1]);
 
-        $config = new Config();
+        $config = new LexerConfig();
         $lexer = new Lexer($config);
         $lexer->parse($csv, $interpreter);
     }
@@ -56,7 +56,7 @@ class LexerTest extends \PHPUnit_Framework_TestCase
         $interpreter->expects($this->at(0))->method('interpret')->with($lines[0]);
         $interpreter->expects($this->at(1))->method('interpret')->with($lines[1]);
 
-        $config = new Config();
+        $config = new LexerConfig();
         $config->setDelimiter("\t");
         $lexer = new Lexer($config);
         $lexer->parse($csv, $interpreter);
@@ -71,7 +71,7 @@ class LexerTest extends \PHPUnit_Framework_TestCase
         $interpreter->expects($this->at(0))->method('interpret')->with($lines[0]);
         $interpreter->expects($this->at(1))->method('interpret')->with($lines[1]);
 
-        $config = new Config();
+        $config = new LexerConfig();
         $config->setDelimiter(':');
         $lexer = new Lexer($config);
         $lexer->parse($csv, $interpreter);

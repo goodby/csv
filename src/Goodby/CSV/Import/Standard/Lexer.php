@@ -5,22 +5,22 @@ namespace Goodby\CSV\Import\Standard;
 use Goodby\CSV\Import\Protocol\LexerInterface;
 use Goodby\CSV\Import\Protocol\InterpreterInterface;
 use Goodby\CSV\Import\Protocol\Exception\CsvFileNotFoundException;
-use Goodby\CSV\Import\Standard\Config;
+use Goodby\CSV\Import\Standard\LexerConfig;
 use Goodby\CSV\Import\Standard\StreamFilter\ConvertMbstringEncoding;
 use SplFileObject;
 
 class Lexer implements LexerInterface
 {
     /**
-     * @var Config
+     * @var LexerConfig
      */
     private $config;
 
     /**
      * Return new Lexer object
-     * @param Config $config
+     * @param LexerConfig $config
      */
-    public function __construct(Config $config)
+    public function __construct(LexerConfig $config)
     {
         $this->config = $config;
         ConvertMbstringEncoding::register();

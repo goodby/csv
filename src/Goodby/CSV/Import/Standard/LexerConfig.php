@@ -2,7 +2,10 @@
 
 namespace Goodby\CSV\Import\Standard;
 
-class Config
+/**
+ * Config for Lexer object
+ */
+class LexerConfig
 {
     /**
      * @var string
@@ -32,7 +35,7 @@ class Config
     /**
      * Set delimiter
      * @param string $delimiter
-     * @return Config
+     * @return LexerConfig
      */
     public function setDelimiter($delimiter)
     {
@@ -52,7 +55,7 @@ class Config
     /**
      * Set enclosure
      * @param string $enclosure
-     * @return Config
+     * @return LexerConfig
      */
     public function setEnclosure($enclosure)
     {
@@ -72,7 +75,7 @@ class Config
     /**
      * Set escape
      * @param string $escape
-     * @return Config
+     * @return LexerConfig
      */
     public function setEscape($escape)
     {
