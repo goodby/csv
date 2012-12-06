@@ -25,7 +25,7 @@ class LexerConfig
     /**
      * @var string
      */
-    private $fromCharset = 'auto';
+    private $fromCharset;
 
     /**
      * @var string

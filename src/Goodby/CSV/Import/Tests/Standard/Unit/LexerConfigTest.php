@@ -31,7 +31,7 @@ class LexerConfigTest extends \PHPUnit_Framework_TestCase
     public function testFromCharset()
     {
         $config = new LexerConfig();
-        $this->assertSame('auto', $config->getFromCharset());
+        $this->assertSame(null, $config->getFromCharset());
         $this->assertSame('UTF-8', $config->setFromCharset('UTF-8')->getFromCharset());
     }
 

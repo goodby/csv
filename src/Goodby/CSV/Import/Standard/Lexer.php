@@ -33,9 +33,20 @@ class Lexer implements LexerInterface
     {
         ini_set('auto_detect_line_endings', true); // For mac's office excel csv
 
-        $url = ConvertMbstringEncoding::getFilterURL($filename, $this->config->getFromCharset(), $this->config->getToCharset());
+        $delimiter   = $this->config->getDelimiter();
+        $enclosure   = $this->config->getEnclosure();
+        $escape      = $this->config->getEscape();
+        $fromCharset = $this->config->getFromCharset();
+        $toCharset   = $this->config->getToCharset();
+
+        if ( $fromCharset === null ) {
+            $url = $filename;
+        } else {
+            $url = ConvertMbstringEncoding::getFilterURL($filename, $fromCharset, $toCharset);
+        }
+
         $csv = new SplFileObject($url);
-        $csv->setCsvControl($this->config->getDelimiter(), $this->config->getEnclosure(), $this->config->getEscape());
+        $csv->setCsvControl($delimiter, $enclosure, $escape);
         $csv->setFlags(SplFileObject::READ_CSV);
 
         $originalLocale = setlocale(LC_ALL, '0'); // Backup current locale
