@@ -4,8 +4,6 @@ namespace Goodby\CSV\Import\Protocol;
 
 /**
  * Interface of the Interpreter
- *
- * @author suin
  */
 interface InterpreterInterface
 {

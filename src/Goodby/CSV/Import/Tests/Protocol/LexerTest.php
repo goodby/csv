@@ -6,14 +6,12 @@ use Mockery as m;
 
 /**
  * unit test for CSV Lexer
- *
- * @author suin
  */
 class LexerTest extends \PHPUnit_Framework_TestCase
 {
-	public function testInterface()
-	{
-        $lexer       = m::mock('\Goodby\CSV\Import\Protocol\LexerInterface');
+    public function testInterface()
+    {
+        $lexer = m::mock('\Goodby\CSV\Import\Protocol\LexerInterface');
         $interpreter = m::mock('\Goodby\CSV\Import\Protocol\InterpreterInterface');
 
         $path = 'dummy.csv';
@@ -21,10 +19,10 @@ class LexerTest extends \PHPUnit_Framework_TestCase
         $lexer->shouldReceive('parse')->with($path, $interpreter);
 
         $lexer->parse($path, $interpreter);
-	}
+    }
 
     /**
-     * @expectedException Goodby\CSV\Import\Protocol\Exception\CsvFileNotFoundException
+     * @expectedException \Goodby\CSV\Import\Protocol\Exception\CsvFileNotFoundException
      */
     public function testCsvFileNotFound()
     {

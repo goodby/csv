@@ -7,13 +7,11 @@ use Goodby\CSV\Import\Protocol\Exception\InvalidLexicalException;
 
 /**
  * unit test for Interface of the Interpreter
- *
- * @author suin
  */
 class InterpreterTest extends \PHPUnit_Framework_TestCase
 {
-	public function testInterpreterInterface()
-	{
+    public function testInterpreterInterface()
+    {
         $interpreter = m::mock('\Goodby\CSV\Import\Protocol\InterpreterInterface');
 
         $line = array();
@@ -21,10 +19,10 @@ class InterpreterTest extends \PHPUnit_Framework_TestCase
         $interpreter->shouldReceive('interpret')->with($line);
 
         $interpreter->interpret($line);
-	}
+    }
 
     /**
-     * @expectedException Goodby\CSV\Import\Protocol\Exception\InvalidLexicalException
+     * @expectedException \Goodby\CSV\Import\Protocol\Exception\InvalidLexicalException
      */
     public function testInterpreterInterfaceWillThrownInvalidLexicalException()
     {
