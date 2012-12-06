@@ -26,4 +26,11 @@ class ExporterConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('\\', $config->getEscape());
         $this->assertSame('esc', $config->setEscape('esc')->getEscape());
     }
+
+    public function testNewline()
+    {
+        $config = new ExporterConfig();
+        $this->assertSame("\r\n", $config->getNewline());
+        $this->assertSame("\r", $config->setNewline("\r")->getNewline());
+    }
 }

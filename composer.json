@@ -10,7 +10,8 @@
     "require-dev": {
         "EHER/PHPUnit": ">=1.6",
         "mockery/mockery": ">=0.7.2",
-        "suin/php-expose": ">=1.0"
+        "suin/php-expose": ">=1.0",
+        "mikey179/vfsStream": ">=1.1.0"
     },
     "autoload": {
         "psr-0": {

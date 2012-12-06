@@ -26,6 +26,12 @@ class ExporterConfig
     private $escape = '\\';
 
     /**
+     * Newline code
+     * @var string
+     */
+    private $newline = "\r\n";
+
+    /**
      * Set delimiter
      * @param string $delimiter
      * @return ExporterConfig
@@ -83,5 +89,25 @@ class ExporterConfig
     public function getEscape()
     {
         return $this->escape;
+    }
+
+    /**
+     * Set newline
+     * @param string $newline
+     * @return ExporterConfig
+     */
+    public function setNewline($newline)
+    {
+        $this->newline = $newline;
+        return $this;
+    }
+
+    /**
+     * Return newline
+     * @return string
+     */
+    public function getNewline()
+    {
+        return $this->newline;
     }
 }
