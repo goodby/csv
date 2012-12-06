@@ -10,6 +10,20 @@ Goodby CSV is a flexible and extendable open-source CSV import/export library.
 // Sample code... writing...
 ```
 
+### Features
+
+#### 1. Memory Management Free
+
+This library designed for memory unbreakable. It will not be accumulated in the memory whole rows. The importer read CSV file and execute callback function line by line.
+
+#### 2. Multibyte support
+
+This library supports mulitbyte input/output: for example, SJIS-win, EUC-JP and UTF-8.
+
+#### 3. Ready to Use for Enterprise Applications
+
+Goodby CSV is fully unit-tested. The library is stable and ready to be used in large projects like enterprise applications.
+
 ## Requirements
 
 * PHP 5.3.2 or later
@@ -44,13 +58,6 @@ php composer.phar install
 Csv is open-sourced software licensed under the MIT License - see the LICENSE file for details
 
 ## Documentation
-
-### Memory Management Free
-
-This library designed for memory unbreakable.
-every each line processsing line by line.
-
-It will not be accumulated in the memory whole rows.
 
 ### Import to Database via PDO
 
