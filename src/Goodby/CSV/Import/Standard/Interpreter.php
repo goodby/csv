@@ -20,8 +20,11 @@ class Interpreter implements InterpreterInterface
     /**
      * @var int
      */
-    private $columnsConsistency = null;
+    private $rowConsistency = null;
 
+    /**
+     * @var bool
+     */
     private $strict = true;
 
     /**
@@ -33,7 +36,7 @@ class Interpreter implements InterpreterInterface
      */
     public function interpret($line)
     {
-        $this->checkColumnsConsistency($line);
+        $this->checkRowConsistency($line);
 
         if (!is_array($line)) {
             throw new InvalidLexicalException('line is must be array');
@@ -42,28 +45,9 @@ class Interpreter implements InterpreterInterface
         $this->notify($line);
     }
 
-    public function unStrict()
+    public function unstrict()
     {
         $this->strict = false;
-    }
-
-    private function checkColumnsConsistency($line)
-    {
-        if (!$this->strict) {
-            return;
-        }
-
-        $current = count($line);
-
-        if ($this->columnsConsistency === null) {
-            $this->columnsConsistency = $current;
-        }
-
-        if ($current !== $this->columnsConsistency) {
-            throw new StrictViolationException();
-        }
-
-        $this->columnsConsistency = $current;
     }
 
     /**
@@ -116,5 +100,24 @@ class Interpreter implements InterpreterInterface
         if (!is_callable($observer)) {
             throw new \InvalidArgumentException('observer must be callable');
         }
+    }
+
+    private function checkRowConsistency($line)
+    {
+        if (!$this->strict) {
+            return;
+        }
+
+        $current = count($line);
+
+        if ($this->rowConsistency === null) {
+            $this->rowConsistency = $current;
+        }
+
+        if ($current !== $this->rowConsistency) {
+            throw new StrictViolationException();
+        }
+
+        $this->rowConsistency = $current;
     }
 }

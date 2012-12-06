@@ -4,6 +4,7 @@ namespace Goodby\CSV\Export\Tests\Standard\Join;
 
 use Goodby\CSV\Export\Standard\Exporter;
 use Goodby\CSV\Export\Standard\ExporterConfig;
+use Goodby\CSV\Export\Standard\Exception\StrictViolationException;
 
 use org\bovigo\vfs\vfsStreamDirectory;
 use org\bovigo\vfs\vfsStream;
@@ -47,6 +48,7 @@ class ExporterTest extends \PHPUnit_Framework_TestCase
         $config = new ExporterConfig();
         $config->setNewline("\r");
         $exporter = new Exporter($config);
+        $exporter->unstrict();
 
         $this->assertFileNotExists('vfs://output/data.csv');
         $exporter->export('vfs://output/data.csv', array(
@@ -60,5 +62,29 @@ class ExporterTest extends \PHPUnit_Framework_TestCase
         $expectedContents .= "123,456,789\r";
         $expectedContents .= '"""aaa""","""bbb""",,'."\r";
         $this->assertSame($expectedContents, file_get_contents('vfs://output/data.csv'));
+    }
+
+    public function testUnstrict()
+    {
+        $config = new ExporterConfig();
+        $exporter = new Exporter($config);
+        $this->assertAttributeSame(true, 'strict', $exporter);
+        $exporter->unstrict();
+        $this->assertAttributeSame(false, 'strict', $exporter);
+    }
+
+    /**
+     * @expectedException \Goodby\CSV\Export\Standard\Exception\StrictViolationException
+     */
+    public function testStrict()
+    {
+        $config = new ExporterConfig();
+        $exporter = new Exporter($config);
+
+        $exporter->export('vfs://output/data.csv', array(
+            array('a', 'b', 'c'),
+            array('a', 'b', 'c'),
+            array('a', 'b'),
+        ));
     }
 }

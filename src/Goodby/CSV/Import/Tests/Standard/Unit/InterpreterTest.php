@@ -99,7 +99,7 @@ class InterpreterTest extends \PHPUnit_Framework_TestCase
         $lines[] = array('test', 'test');
 
         $interpreter = new Interpreter();
-        $interpreter->unStrict();
+        $interpreter->unstrict();
 
         foreach ($lines as $line) {
             $interpreter->interpret($line);
