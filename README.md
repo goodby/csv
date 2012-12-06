@@ -7,8 +7,6 @@
 Goodby CSV is a flexible and extendable open-source CSV import/export library.
 
 ```php
-<?php
-
 use Goodby\CSV\Import\Standard\Lexer;
 use Goodby\CSV\Import\Standard\Interpreter;
 use Goodby\CSV\Import\Standard\LexerConfig;
@@ -138,8 +136,6 @@ user.csv:
 ```
 
 ```php
-<?php
-
 use Goodby\CSV\Import\Standard\Lexer;
 use Goodby\CSV\Import\Standard\Interpreter;
 use Goodby\CSV\Import\Standard\LexerConfig;
@@ -173,8 +169,6 @@ temperature.tsv:
 ```
 
 ```php
-<?php
-
 use Goodby\CSV\Import\Standard\Lexer;
 use Goodby\CSV\Import\Standard\Interpreter;
 use Goodby\CSV\Import\Standard\LexerConfig;
@@ -201,8 +195,6 @@ print_r($temperature);
 ### Export from array
 
 ```php
-<?php
-
 use Goodby\CSV\Export\Standard\Exporter;
 use Goodby\CSV\Export\Standard\ExporterConfig;
 
@@ -220,8 +212,6 @@ $exporter->export('php://output', array(
 ### Export from database via PDO
 
 ```php
-<?php
-
 use Goodby\CSV\Export\Standard\Exporter;
 use Goodby\CSV\Export\Standard\ExporterConfig;
 use Goodby\CSV\Export\Standard\Collection\PdoCollection;
