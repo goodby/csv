@@ -7,8 +7,21 @@
 Goodby CSV is a flexible and extendable open-source CSV import/export library.
 
 ```php
-// Sample code... writing...
+<?php
+
+use Goodby\CSV\Import\Standard\Lexer;
+use Goodby\CSV\Import\Standard\Interpreter;
+use Goodby\CSV\Import\Standard\LexerConfig;
+
+$lexer = new Lexer(new LexerConfig());
+$interpreter = new Interpreter();
+$interpreter->addObserver(function(array $row) {
+    // do something here.
+	// for example, insert $row to database.
+});
+$lexer->parse('data.csv', $interpreter);
 ```
+
 
 ### Features
 
