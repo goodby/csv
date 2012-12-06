@@ -63,6 +63,33 @@ class InterpreterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @expectedException \Goodby\CSV\Import\Standard\Exception\StrictViolationException
+     */
+    public function testInconsistentColumnsLowToHigh()
+    {
+        $lines[] = array('test', 'test');
+        $lines[] = array('test', 'test', 'test');
+
+        $interpreter = new Interpreter();
+
+        foreach ($lines as $line) {
+            $interpreter->interpret($line);
+        }
+    }
+
+    public function testConsistentColumns()
+    {
+        $lines[] = array('test', 'test', 'test');
+        $lines[] = array('test', 'test', 'test');
+
+        $interpreter = new Interpreter();
+
+        foreach ($lines as $line) {
+            $interpreter->interpret($line);
+        }
+    }
+
+    /**
      * use un-strict won't throw exception with inconsistent columns
      *
      */
