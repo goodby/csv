@@ -6,7 +6,8 @@ use Mockery as m;
 
 use Goodby\CSV\Import\Standard\Interpreter;
 use Goodby\CSV\Import\Standard\Observer\PdoObserver;
-use Goodby\CSV\Import\Tests\Standard\Join\Helper\DbManager;
+
+use Goodby\CSV\TestHelper\DbManager;
 
 /**
  * unit test for pdo observer
@@ -15,27 +16,23 @@ use Goodby\CSV\Import\Tests\Standard\Join\Helper\DbManager;
 class PdoObserverTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Goodby\CSV\Import\Tests\Standard\Join\Helper\DbManager
+     * @var \Goodby\CSV\TestHelper\DbManager
      */
     private $manager = null;
-
-    private $host;
-    private $db;
-    private $user;
-    private $pass;
 
     public function setUp()
     {
         $this->manager = new DbManager();
 
-        $this->host = $_SERVER['GOODBY_CSV_TEST_DB_HOST'];
-        $this->db   = $_SERVER['GOODBY_CSV_TEST_DB_NAME_DEFAULT'];
-        $this->user = $_SERVER['GOODBY_CSV_TEST_DB_USER'];
-        $this->pass = $_SERVER['GOODBY_CSV_TEST_DB_PASS'];
+        $pdo = $this->manager->getPdo();
 
-        $pdo = $this->getPdo();
         $stmt = $pdo->prepare("CREATE TABLE test (id INT, name VARCHAR(32), age INT, flag TINYINT, flag2 TINYINT, status VARCHAR(32), contents TEXT)");
         $stmt->execute();
+    }
+
+    public function tearDown()
+    {
+        unset($this->manager);
     }
 
     public function testUsage()
@@ -44,8 +41,8 @@ class PdoObserverTest extends \PHPUnit_Framework_TestCase
 
         $table = 'test';
 
-        $dsn = 'mysql:dbname=' . $this->db . ';host=' . $this->host;
-        $options = array('user' => $this->user, 'password' => $this->pass);
+        $dsn = $this->manager->getDsn();
+        $options = array('user' => $this->manager->getUser(), 'password' => $this->manager->getPassword());
 
         $sqlObserver = new PdoObserver($table, array('id', 'name', 'age', 'flag', 'flag2', 'status', 'contents'), $dsn, $options);
 
@@ -53,7 +50,8 @@ class PdoObserverTest extends \PHPUnit_Framework_TestCase
 
         $interpreter->interpret(array('123', 'test', '28', 'true', 'false', 'null', 'test"test'));
 
-        $pdo = $this->getPdo();
+        $pdo = $this->manager->getPdo();
+
         $stmt = $pdo->prepare("SELECT * FROM " . $table);
         $stmt->execute();
 
@@ -77,19 +75,12 @@ class PdoObserverTest extends \PHPUnit_Framework_TestCase
 
         $table = 'test';
 
-        $dsn = 'mysql:dbname=' . $this->db . ';host=' . $this->host;
-        $options = array('user' => $this->user, 'password' => $this->pass);
+        $options = array('user' => $this->manager->getPassword(), 'password' => $this->manager->getPassword());
 
-        $sqlObserver = new PdoObserver($table, array('id', 'name'), $dsn, $options);
+        $sqlObserver = new PdoObserver($table, array('id', 'name'), $this->manager->getDsn(), $options);
 
         $interpreter->addObserver(array($sqlObserver, 'notify'));
 
         $interpreter->interpret(array('123', array('test', 'test')));
-    }
-
-    private function getPdo()
-    {
-        $dsn = 'mysql:dbname=' . $this->db . ';host=' . $this->host;
-        return new \PDO($dsn, $this->user, $this->pass);
     }
 }
