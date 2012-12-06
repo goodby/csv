@@ -89,6 +89,9 @@ class ExporterTest extends \PHPUnit_Framework_TestCase
         ));
     }
 
+    /**
+     * @requires PHP 5.4
+     */
     public function test_throwing_IOException_when_failed_to_write_file()
     {
         $noWritableCsv = 'vfs://output/no-writable.csv';
