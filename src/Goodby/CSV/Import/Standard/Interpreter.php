@@ -4,6 +4,7 @@ namespace Goodby\CSV\Import\Standard;
 
 use Goodby\CSV\Import\Protocol\InterpreterInterface;
 use Goodby\CSV\Import\Protocol\Exception\InvalidLexicalException;
+use Goodby\CSV\Import\Standard\Exception\StrictViolationException;
 
 /**
  * standard interpreter
@@ -17,6 +18,13 @@ class Interpreter implements InterpreterInterface
     private $observers = array();
 
     /**
+     * @var int
+     */
+    private $columnsConsistency = null;
+
+    private $strict = true;
+
+    /**
      * interpret line
      *
      * @param $line
@@ -25,11 +33,37 @@ class Interpreter implements InterpreterInterface
      */
     public function interpret($line)
     {
+        $this->checkColumnsConsistency($line);
+
         if (!is_array($line)) {
             throw new InvalidLexicalException('line is must be array');
         }
 
         $this->notify($line);
+    }
+
+    public function unStrict()
+    {
+        $this->strict = false;
+    }
+
+    private function checkColumnsConsistency($line)
+    {
+        if (!$this->strict) {
+            return;
+        }
+
+        $current = count($line);
+
+        if ($this->columnsConsistency === null) {
+            $this->columnsConsistency = $current;
+        }
+
+        if ($current !== $this->columnsConsistency) {
+            throw new StrictViolationException();
+        }
+
+        $this->columnsConsistency = $current;
     }
 
     /**

@@ -48,7 +48,39 @@ class InterpreterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Goodby\CSV\Import\Protocol\Exception\InvalidLexicalException
+     * @expectedException \Goodby\CSV\Import\Standard\Exception\StrictViolationException
+     */
+    public function testInconsistentColumns()
+    {
+        $lines[] = array('test', 'test', 'test');
+        $lines[] = array('test', 'test');
+
+        $interpreter = new Interpreter();
+
+        foreach ($lines as $line) {
+            $interpreter->interpret($line);
+        }
+    }
+
+    /**
+     * use un-strict won't throw exception with inconsistent columns
+     *
+     */
+    public function testInconsistentColumnsWithUnStrict()
+    {
+        $lines[] = array('test', 'test', 'test');
+        $lines[] = array('test', 'test');
+
+        $interpreter = new Interpreter();
+        $interpreter->unStrict();
+
+        foreach ($lines as $line) {
+            $interpreter->interpret($line);
+        }
+    }
+
+    /**
+     * @expectedException \Goodby\CSV\Import\Protocol\Exception\InvalidLexicalException
      */
     public function testStandardInterpreterWithInvalidLexical()
     {
