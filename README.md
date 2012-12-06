@@ -66,11 +66,66 @@ Install via composer:
 php composer.phar install
 ```
 
-## License
-
-Csv is open-sourced software licensed under the MIT License - see the LICENSE file for details
-
 ## Documentation
+
+### Configuration
+
+Import configuration:
+
+```php
+use Goodby\CSV\Import\Standard\LexerConfig;
+
+$config = new LexerConfig();
+$config
+    ->setDelimiter("\t") // Customize delimiter. Default value is comma(,)
+    ->setEnclosure("'")  // Customize enclosure. Default value is double quotation(")
+    ->setEscape("\\")    // Customize escape character. Default value is backslash(\)
+    ->setToCharset('UTF-8') // Customize target encoding. Default value is null, no converting.
+    ->setFromCharset('SJIS-win') // Customize CSV file encoding. Default value is null.
+;
+```
+
+Export configuration:
+
+```php
+use Goodby\CSV\Export\Standard\ExporterConfig;
+
+$config = new ExporterConfig();
+$config
+    ->setDelimiter("\t") // Customize delimiter. Default value is comma(,)
+    ->setEnclosure("'")  // Customize enclosure. Default value is double quotation(")
+    ->setEscape("\\")    // Customize escape character. Default value is backslash(\)
+    ->setToCharset('SJIS-win') // Customize file encoding. Default value is null, no converting.
+    ->setFromCharset('UTF-8') // Customize source  encoding. Default value is null.
+;
+```
+
+### Unstrict Row Consistency Mode
+
+As default, Goodby CSV throws `StrictViolationException` when it meet with a row which column count is different from the other columns. In the case you want to import such a CSV, you can call `Interpreter::unstrict()` to disable row consistency check at importing process
+
+rough.csv:
+
+```csv
+foo,bar,baz
+foo,bar
+foo
+foo,bar,baz
+```
+
+```php
+use Goodby\CSV\Import\Standard\Interpreter;
+use Goodby\CSV\Import\Standard\Lexer;
+use Goodby\CSV\Import\Standard\LexerConfig;
+
+$interpreter = new Interpreter();
+$interpreter->unstrict(); // Ignore row column count consistency
+
+$lexer = new Lexer(new LexerConfig());
+$lexer->parse('rough.csv', $interpreter);
+```
+
+## Examples
 
 ### Import to Database via PDO
 
@@ -186,6 +241,10 @@ $stmt->execute();
 
 $exporter->export('php://output', new PdoCollection($stmt));
 ```
+
+## License
+
+Csv is open-sourced software licensed under the MIT License - see the LICENSE file for details
 
 
 ## Contributing
