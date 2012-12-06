@@ -150,4 +150,21 @@ class ExporterTest extends \PHPUnit_Framework_TestCase
 
         $this->assertFileEquals(__DIR__.'/csv_files/utf-8.csv', $csv);
     }
+
+    public function test_unseekable_wrapper_and_custom_newline_code()
+    {
+        $config = new ExporterConfig();
+        $config->setNewline("\r\n");
+        $exporter = new Exporter($config);
+
+        ob_start();
+        $exporter->export('php://output', array(
+            array('a', 'b', 'c'),
+            array('1', '2', '3'),
+        ));
+        $output = ob_get_clean();
+
+        $expectedCount = "a,b,c\r\n1,2,3\r\n";
+        $this->assertSame($expectedCount, $output);
+    }
 }
