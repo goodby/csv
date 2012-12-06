@@ -6,7 +6,6 @@ use Goodby\CSV\Export\Protocol\ExporterInterface;
 use Goodby\CSV\Export\Protocol\Exception\IOException;
 use Goodby\CSV\Export\Standard\ExporterConfig;
 use Goodby\CSV\Export\Standard\Exception\StrictViolationException;
-use SplFileObject;
 
 /**
  * Standard exporter class
@@ -51,7 +50,12 @@ class Exporter implements ExporterInterface
      */
     public function export($filename, $rows)
     {
-        $pointer = fopen($filename, 'w+');
+        $pointer = @fopen($filename, 'w+');
+
+        if ( $pointer === false ) {
+            $lastError = error_get_last();
+            throw new IOException($lastError['message']);
+        }
 
         $delimiter = $this->config->getDelimiter();
         $enclosure = $this->config->getEnclosure();

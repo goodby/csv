@@ -5,6 +5,7 @@ namespace Goodby\CSV\Export\Tests\Standard\Join;
 use Goodby\CSV\Export\Standard\Exporter;
 use Goodby\CSV\Export\Standard\ExporterConfig;
 use Goodby\CSV\Export\Standard\Exception\StrictViolationException;
+use Goodby\CSV\Export\Protocol\Exception\IOException;
 
 use org\bovigo\vfs\vfsStreamDirectory;
 use org\bovigo\vfs\vfsStream;
@@ -85,6 +86,26 @@ class ExporterTest extends \PHPUnit_Framework_TestCase
             array('a', 'b', 'c'),
             array('a', 'b', 'c'),
             array('a', 'b'),
+        ));
+    }
+
+    /**
+     * @expectedException \Goodby\CSV\Export\Protocol\Exception\IOException
+     * @expectedExceptionMessage failed to open
+     */
+    public function test_throwing_IOException_when_failed_to_write_file()
+    {
+        $noWritableCsv = 'vfs://output/no-writable.csv';
+        touch($noWritableCsv);
+        chmod($noWritableCsv, 0444);
+
+        $this->assertFalse(is_writable($noWritableCsv));
+
+        $config = new ExporterConfig();
+        $exporter = new Exporter($config);
+
+        $exporter->export($noWritableCsv, array(
+            array('a', 'b', 'c'),
         ));
     }
 }
