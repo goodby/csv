@@ -2,7 +2,7 @@
 
 namespace Goodby\CSV\Export\Protocol;
 
-use Iterator;
+use Traversable;
 use Goodby\CSV\Export\Protocol\Exception\IOException;
 
 /**
@@ -12,8 +12,9 @@ interface ExporterInterface
 {
     /**
      * Export data as CSV file
+     *
      * @param string $filename
-     * @param array|Iterator $rows
+     * @param array|Traversable $rows
      * @throws IOException
      * @return void
      */
