@@ -232,6 +232,31 @@ $stmt->execute();
 $exporter->export('php://output', new PdoCollection($stmt));
 ```
 
+### Export with CallbackCollection
+```php
+use Goodby\CSV\Export\Standard\Exporter;
+use Goodby\CSV\Export\Standard\ExporterConfig;
+
+use Goodby\CSV\Export\Standard\Collection\CallbackCollection;
+
+$data = array();
+$data[] = array('user', 'name1');
+$data[] = array('user', 'name2');
+$data[] = array('user', 'name3');
+
+$collection = new CallbackCollection($data, function($row) {
+    // apply custom format to the row
+    $row[1] = $row[1] . '!';
+
+    return $row;
+});
+
+$config = new ExporterConfig();
+$exporter = new Exporter($config);
+
+$exporter->export('php://stdout', $collection);
+```
+
 ## License
 
 Csv is open-sourced software licensed under the MIT License - see the LICENSE file for details
