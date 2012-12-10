@@ -121,7 +121,7 @@ class InterpreterTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \InvalidArgumentException
      */
-    public function testInvalidCallbale()
+    public function testInvalidCallable()
     {
         $interpreter = new Interpreter();
 
