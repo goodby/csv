@@ -4,7 +4,7 @@
 
 ## What is "Goodby CSV"?
 
-Goodby CSV is a flexible and extendable open-source CSV import/export library.
+Goodby CSV is a high memory efficient flexible and extendable open-source CSV import/export library.
 
 ```php
 use Goodby\CSV\Import\Standard\Lexer;
@@ -255,6 +255,31 @@ $config = new ExporterConfig();
 $exporter = new Exporter($config);
 
 $exporter->export('php://stdout', $collection);
+```
+
+### Export in Symfony2 action
+
+```php
+$conn = $this->get('database_connection');
+
+$stmt = $conn->prepare('SELECT * FROM somewhere');
+$stmt->execute();
+
+$response = new StreamedResponse();
+
+$response->setStatusCode(200);
+$response->headers->set('Content-Type', 'text/csv');
+
+$response->setCallback(function() use($stmt) {
+	$config = new ExporterConfig();
+	$exporter = new Exporter($config);
+
+    $exporter->export('php://output', new PdoCollection($stmt->getIterator()));
+});
+
+$response->send();
+
+return $response;
 ```
 
 ## License
