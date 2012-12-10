@@ -260,26 +260,34 @@ $exporter->export('php://stdout', $collection);
 ### Export in Symfony2 action
 
 ```php
-$conn = $this->get('database_connection');
+namespace AcmeBundle\ExampleBundle\Controller;
 
-$stmt = $conn->prepare('SELECT * FROM somewhere');
-$stmt->execute();
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
-$response = new StreamedResponse();
-
-$response->setStatusCode(200);
-$response->headers->set('Content-Type', 'text/csv');
-
-$response->setCallback(function() use($stmt) {
-	$config = new ExporterConfig();
-	$exporter = new Exporter($config);
-
-    $exporter->export('php://output', new PdoCollection($stmt->getIterator()));
-});
-
-$response->send();
-
-return $response;
+class DefaultController extends Controller
+{
+	public function csvExportAction()
+	{
+		$conn = $this->get('database_connection');
+		
+		$stmt = $conn->prepare('SELECT * FROM somewhere');
+		$stmt->execute();
+		
+		$response = new StreamedResponse();
+		$response->setStatusCode(200);
+		$response->headers->set('Content-Type', 'text/csv');
+		$response->setCallback(function() use($stmt) {
+			$config = new ExporterConfig();
+			$exporter = new Exporter($config);
+		
+		    $exporter->export('php://output', new PdoCollection($stmt->getIterator()));
+		});
+		$response->send();
+		
+		return $response;
+	}
+}
 ```
 
 ## License
