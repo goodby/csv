@@ -115,7 +115,7 @@ class Interpreter implements InterpreterInterface
         }
 
         if ($current !== $this->rowConsistency) {
-            throw new StrictViolationException();
+            throw new StrictViolationException(sprintf('Column size should be %u, but %u columns given', $this->rowConsistency, $current));
         }
 
         $this->rowConsistency = $current;
