@@ -90,4 +90,36 @@ class LexerTest extends \PHPUnit_Framework_TestCase
         $lexer = new Lexer($config);
         $lexer->parse($csv, $interpreter);
     }
+
+    /**
+     * When import CSV file with data in Japanese (2 bytes character),
+     * data imported to database with error encoding
+     * @link https://github.com/goodby/csv/issues/5
+     */
+    public function test_issue_5()
+    {
+        $csvFilename = CSVFiles::getIssue5CSV();
+
+        $csvContents = array();
+
+        $config = new LexerConfig();
+        $config
+            ->setToCharset('UTF-8')
+            ->setFromCharset('UTF-8');
+        $lexer = new Lexer($config);
+        $interpreter = new Interpreter();
+        $interpreter->addObserver(function(array $columns) use (&$csvContents) {
+            $csvContents[] = $columns;
+        });
+
+        $lexer->parse($csvFilename, $interpreter);
+        
+        $this->assertSame(array(
+            array("ID", "NAME", "MAKER"),
+            array("1", "スティック型クリーナ", "alice_updated@example.com"),
+            array("2", "bob", "bob@example.com"),
+            array("14", "スティック型クリーナ", "tho@eample.com"),
+            array("16", "スティック型", "carot@eample.com"),
+        ), $csvContents);
+    }
 }

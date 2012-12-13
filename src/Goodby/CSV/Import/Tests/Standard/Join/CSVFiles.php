@@ -61,4 +61,9 @@ class CSVFiles
             array('유', '니', '코', '드'),
         );
     }
+
+    public static function getIssue5CSV()
+    {
+        return __DIR__.'/csv_files/issue-5.csv';
+    }
 }
