@@ -32,6 +32,11 @@ class LexerConfig
      */
     private $toCharset;
 
+	/**
+	 * @var integer
+	 */
+	private $flags = \SplFileObject::READ_CSV;
+
     /**
      * Set delimiter
      * @param string $delimiter
@@ -130,5 +135,25 @@ class LexerConfig
     public function getToCharset()
     {
         return $this->toCharset;
+    }
+
+    /**
+     * Set flags
+     * @param integer $flags
+     * @return LexerConfig
+     */
+    public function setFlags($flags)
+    {
+        $this->flags = $flags;
+        return $this;
+    }
+
+    /**
+     * Return flags 
+     * @return integer 
+     */
+    public function getFlags()
+    {
+        return $this->flags;
     }
 }

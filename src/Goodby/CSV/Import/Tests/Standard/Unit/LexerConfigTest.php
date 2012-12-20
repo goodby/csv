@@ -41,4 +41,13 @@ class LexerConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(null, $config->getToCharset());
         $this->assertSame('UTF-8', $config->setToCharset('UTF-8')->getToCharset());
     }
+
+    public function testFlags()
+    {
+        $config = new LexerConfig();
+        $this->assertSame(\SplFileObject::READ_CSV, $config->getFlags());
+		$config->setFlags(\SplFileObject::READ_AHEAD | \SplFileObject::SKIP_EMPTY | \SplFileObject::READ_CSV);
+		$flags = (\SplFileObject::READ_AHEAD | \SplFileObject::SKIP_EMPTY | \SplFileObject::READ_CSV);
+        $this->assertSame($flags, $config->getFlags());
+    }
 }
