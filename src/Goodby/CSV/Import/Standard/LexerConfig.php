@@ -2,6 +2,8 @@
 
 namespace Goodby\CSV\Import\Standard;
 
+use SplFileObject;
+
 /**
  * Config for Lexer object
  */
@@ -31,6 +33,11 @@ class LexerConfig
      * @var string
      */
     private $toCharset;
+
+    /**
+     * @var integer
+     */
+    private $flags = SplFileObject::READ_CSV;
 
     /**
      * Set delimiter
@@ -130,5 +137,26 @@ class LexerConfig
     public function getToCharset()
     {
         return $this->toCharset;
+    }
+
+    /**
+     * Set flags
+     * @param integer $flags Bit mask of the flags to set. See SplFileObject constants for the available flags.
+     * @return LexerConfig
+     * @see http://php.net/manual/en/class.splfileobject.php#splfileobject.constants
+     */
+    public function setFlags($flags)
+    {
+        $this->flags = $flags;
+        return $this;
+    }
+
+    /**
+     * Return flags 
+     * @return integer 
+     */
+    public function getFlags()
+    {
+        return $this->flags;
     }
 }
