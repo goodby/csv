@@ -2,6 +2,8 @@
 
 namespace Goodby\CSV\Import\Standard;
 
+use SplFileObject;
+
 /**
  * Config for Lexer object
  */
@@ -35,7 +37,7 @@ class LexerConfig
     /**
      * @var integer
      */
-    private $flags = \SplFileObject::READ_CSV;
+    private $flags = SplFileObject::READ_CSV;
 
     /**
      * Set delimiter

@@ -2,6 +2,7 @@
 
 namespace Goodby\CSV\Import\Tests\Standard\Unit;
 
+use SplFileObject;
 use Goodby\CSV\Import\Standard\LexerConfig;
 
 class LexerConfigTest extends \PHPUnit_Framework_TestCase
@@ -45,9 +46,9 @@ class LexerConfigTest extends \PHPUnit_Framework_TestCase
     public function testFlags()
     {
         $config = new LexerConfig();
-        $this->assertSame(\SplFileObject::READ_CSV, $config->getFlags());
-        $config->setFlags(\SplFileObject::READ_AHEAD | \SplFileObject::SKIP_EMPTY | \SplFileObject::READ_CSV);
-        $flags = (\SplFileObject::READ_AHEAD | \SplFileObject::SKIP_EMPTY | \SplFileObject::READ_CSV);
+        $this->assertSame(SplFileObject::READ_CSV, $config->getFlags());
+        $config->setFlags(SplFileObject::READ_AHEAD | SplFileObject::SKIP_EMPTY | SplFileObject::READ_CSV);
+        $flags = (SplFileObject::READ_AHEAD | SplFileObject::SKIP_EMPTY | SplFileObject::READ_CSV);
         $this->assertSame($flags, $config->getFlags());
     }
 }
