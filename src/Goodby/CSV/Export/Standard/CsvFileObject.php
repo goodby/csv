@@ -51,7 +51,13 @@ class CsvFileObject extends SplFileObject
         array_unshift($arguments, $fp);
         call_user_func_array('fputcsv', $arguments);
         rewind($fp);
-        $line = fgets($fp);
+
+        $line = '';
+
+        while ( feof($fp) === false ) {
+            $line .= fgets($fp);
+        }
+
         fclose($fp);
 
         /**
