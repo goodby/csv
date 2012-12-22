@@ -167,4 +167,22 @@ class ExporterTest extends \PHPUnit_Framework_TestCase
         $expectedCount = "a,b,c\r\n1,2,3\r\n";
         $this->assertSame($expectedCount, $output);
     }
+
+    public function test_multiple_line_columns()
+    {
+        $csv = 'vfs://output/multiple-lines.csv';
+        $this->assertFileNotExists($csv);
+
+        $config = new ExporterConfig();
+        $config->setNewline("\r\n");
+        $exporter = new Exporter($config);
+
+        $exporter->export($csv, array(
+            array("line1\r\nline2\r\nline3", "single-line"),
+            array("line1\r\nline2\r\nline3", "single-line"),
+            array("line1\r\nline2\r\nline3", "single-line"),
+        ));
+
+        $this->assertFileEquals(__DIR__.'/csv_files/multiple-lines.csv', $csv);
+    }
 }
