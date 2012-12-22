@@ -38,7 +38,7 @@ class Lexer implements LexerInterface
         $escape      = $this->config->getEscape();
         $fromCharset = $this->config->getFromCharset();
         $toCharset   = $this->config->getToCharset();
-		$flags       = $this->config->getFlags();
+        $flags       = $this->config->getFlags();
 
         if ( $fromCharset === null ) {
             $url = $filename;

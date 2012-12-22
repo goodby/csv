@@ -32,10 +32,10 @@ class LexerConfig
      */
     private $toCharset;
 
-	/**
-	 * @var integer
-	 */
-	private $flags = \SplFileObject::READ_CSV;
+    /**
+     * @var integer
+     */
+    private $flags = \SplFileObject::READ_CSV;
 
     /**
      * Set delimiter
@@ -139,8 +139,9 @@ class LexerConfig
 
     /**
      * Set flags
-     * @param integer $flags
+     * @param integer $flags Bit mask of the flags to set. See SplFileObject constants for the available flags.
      * @return LexerConfig
+     * @see http://php.net/manual/en/class.splfileobject.php#splfileobject.constants
      */
     public function setFlags($flags)
     {

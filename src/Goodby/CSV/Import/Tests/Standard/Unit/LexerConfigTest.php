@@ -46,8 +46,8 @@ class LexerConfigTest extends \PHPUnit_Framework_TestCase
     {
         $config = new LexerConfig();
         $this->assertSame(\SplFileObject::READ_CSV, $config->getFlags());
-		$config->setFlags(\SplFileObject::READ_AHEAD | \SplFileObject::SKIP_EMPTY | \SplFileObject::READ_CSV);
-		$flags = (\SplFileObject::READ_AHEAD | \SplFileObject::SKIP_EMPTY | \SplFileObject::READ_CSV);
+        $config->setFlags(\SplFileObject::READ_AHEAD | \SplFileObject::SKIP_EMPTY | \SplFileObject::READ_CSV);
+        $flags = (\SplFileObject::READ_AHEAD | \SplFileObject::SKIP_EMPTY | \SplFileObject::READ_CSV);
         $this->assertSame($flags, $config->getFlags());
     }
 }
