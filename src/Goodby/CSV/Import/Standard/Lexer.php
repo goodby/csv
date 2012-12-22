@@ -38,6 +38,7 @@ class Lexer implements LexerInterface
         $escape      = $this->config->getEscape();
         $fromCharset = $this->config->getFromCharset();
         $toCharset   = $this->config->getToCharset();
+		$flags       = $this->config->getFlags();
 
         if ( $fromCharset === null ) {
             $url = $filename;
@@ -47,7 +48,7 @@ class Lexer implements LexerInterface
 
         $csv = new SplFileObject($url);
         $csv->setCsvControl($delimiter, $enclosure, $escape);
-        $csv->setFlags(SplFileObject::READ_CSV);
+        $csv->setFlags($flags);
 
         $originalLocale = setlocale(LC_ALL, '0'); // Backup current locale
         setlocale(LC_ALL, 'en_US.UTF-8');

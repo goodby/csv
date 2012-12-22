@@ -12,6 +12,7 @@ $temperature = array();
 // set up lexer
 $config = new LexerConfig();
 $config->setDelimiter("\t");
+$config->setFlags(\SplFileObject::READ_AHEAD | \SplFileObject::SKIP_EMPTY | \SplFileObject::READ_CSV);
 $lexer = new Lexer($config);
 
 // set up interpreter
