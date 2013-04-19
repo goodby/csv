@@ -57,6 +57,7 @@ class Lexer implements LexerInterface
             $interpreter->interpret($line);
         }
 
-        setlocale(LC_ALL, $originalLocale); // Reset locale
+        parse_str(str_replace(';', '&', $originalLocale), $locale_array);
+        setlocale(LC_ALL, $locale_array); // Reset locale
     }
 }
