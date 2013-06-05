@@ -56,9 +56,10 @@ class Exporter implements ExporterInterface
         $newline     = $this->config->getNewline();
         $fromCharset = $this->config->getFromCharset();
         $toCharset   = $this->config->getToCharset();
+        $fileMode    = $this->config->getFileMode();
 
         try {
-            $csv = new CsvFileObject($filename, 'w');
+            $csv = new CsvFileObject($filename, $fileMode);
         } catch ( \Exception $e ) {
             throw new IOException($e->getMessage(), null, $e);
         }
@@ -75,6 +76,7 @@ class Exporter implements ExporterInterface
             $this->checkRowConsistency($row);
             $csv->fputcsv($row, $delimiter, $enclosure);
         }
+        $csv->fflush();
     }
 
     /**

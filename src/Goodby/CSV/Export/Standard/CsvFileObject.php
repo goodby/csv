@@ -6,6 +6,9 @@ use SplFileObject;
 
 class CsvFileObject extends SplFileObject
 {
+    const FILE_MODE_WRITE  = 'w';
+    const FILE_MODE_APPEND = 'a';
+
     /**
      * newline character
      * @var string
