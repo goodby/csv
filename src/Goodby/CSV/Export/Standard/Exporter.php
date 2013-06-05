@@ -76,6 +76,7 @@ class Exporter implements ExporterInterface
             $this->checkRowConsistency($row);
             $csv->fputcsv($row, $delimiter, $enclosure);
         }
+        $csv->fflush();
     }
 
     /**
