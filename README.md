@@ -94,7 +94,8 @@ $config
     ->setEnclosure("'")  // Customize enclosure. Default value is double quotation(")
     ->setEscape("\\")    // Customize escape character. Default value is backslash(\)
     ->setToCharset('SJIS-win') // Customize file encoding. Default value is null, no converting.
-    ->setFromCharset('UTF-8') // Customize source  encoding. Default value is null.
+    ->setFromCharset('UTF-8') // Customize source encoding. Default value is null.
+    ->setFileMode(CsvFileObject::FILE_MODE_WRITE) // Customize file mode and choose either write or append. Default value is write ('w'). See fopen() php docs
 ;
 ```
 
@@ -270,21 +271,21 @@ class DefaultController extends Controller
 	public function csvExportAction()
 	{
 		$conn = $this->get('database_connection');
-		
+
 		$stmt = $conn->prepare('SELECT * FROM somewhere');
 		$stmt->execute();
-		
+
 		$response = new StreamedResponse();
 		$response->setStatusCode(200);
 		$response->headers->set('Content-Type', 'text/csv');
 		$response->setCallback(function() use($stmt) {
 			$config = new ExporterConfig();
 			$exporter = new Exporter($config);
-		
+
 		    $exporter->export('php://output', new PdoCollection($stmt->getIterator()));
 		});
 		$response->send();
-		
+
 		return $response;
 	}
 }
