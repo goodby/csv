@@ -44,6 +44,12 @@ class ExporterConfig
     private $toCharset = null;
 
     /**
+     * File mode
+     * @var string
+     */
+    private $fileMode = CsvFileObject::FILE_MODE_WRITE;
+
+    /**
      * Set delimiter
      * @param string $delimiter
      * @return ExporterConfig
@@ -161,5 +167,25 @@ class ExporterConfig
     public function getToCharset()
     {
         return $this->toCharset;
+    }
+
+    /**
+     * Set file mode
+     * @param string $fileMode
+     * @return ExporterConfig
+     */
+    public function setFileMode($fileMode)
+    {
+        $this->fileMode = $fileMode;
+        return $this;
+    }
+
+    /**
+     * Return file mode
+     * @return string
+     */
+    public function getFileMode()
+    {
+        return $this->fileMode;
     }
 }
