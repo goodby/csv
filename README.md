@@ -158,7 +158,7 @@ $lexer->parse('user.csv', $interpreter);
 
 ```
 
-### Import form TSV(tab separated values) to array
+### Import from TSV(tab separated values) to array
 
 temperature.tsv:
 
