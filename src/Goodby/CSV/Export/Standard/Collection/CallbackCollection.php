@@ -3,6 +3,7 @@
 namespace Goodby\CSV\Export\Standard\Collection;
 
 use Iterator;
+use IteratorAggregate;
 
 class CallbackCollection implements Iterator
 {
@@ -22,8 +23,10 @@ class CallbackCollection implements Iterator
             $this->data = $ao->getIterator();
         } elseif ($data instanceof Iterator) {
             $this->data = $data;
+        } elseif ($data instanceof IteratorAggregate) {
+            $this->data = $data->getIterator();
         } else {
-            throw new \InvalidArgumentException('data must be an array or a Iterator');
+            throw new \InvalidArgumentException('data must be an array or an Iterator/IteratorAggregate');
         }
     }
 
