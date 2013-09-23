@@ -51,4 +51,11 @@ class LexerConfigTest extends \PHPUnit_Framework_TestCase
         $flags = (SplFileObject::READ_AHEAD | SplFileObject::SKIP_EMPTY | SplFileObject::READ_CSV);
         $this->assertSame($flags, $config->getFlags());
     }
+
+    public function testIgnoreHeaderLine()
+    {
+        $config = new LexerConfig();
+        $this->assertSame(false, $config->getIgnoreHeaderLine());
+        $this->assertSame(true, $config->setIgnoreHeaderLine(true)->getIgnoreHeaderLine());
+    }
 }
