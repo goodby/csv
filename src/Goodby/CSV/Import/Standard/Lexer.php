@@ -54,6 +54,10 @@ class Lexer implements LexerInterface
         setlocale(LC_ALL, 'en_US.UTF-8');
 
         foreach ( $csv as $line ) {
+            if(count($line) === 1 && $line[0] === null){
+				continue;
+			}
+            
             $interpreter->interpret($line);
         }
 
