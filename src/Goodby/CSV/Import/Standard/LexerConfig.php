@@ -40,6 +40,11 @@ class LexerConfig
     private $flags = SplFileObject::READ_CSV;
 
     /**
+     * @var bool
+     */
+    private $ignoreHeaderLine = false;
+
+    /**
      * Set delimiter
      * @param string $delimiter
      * @return LexerConfig
@@ -158,5 +163,23 @@ class LexerConfig
     public function getFlags()
     {
         return $this->flags;
+    }
+
+    /**
+     * @param $ignoreHeaderLine
+     * @return $this
+     */
+    public function setIgnoreHeaderLine($ignoreHeaderLine)
+    {
+        $this->ignoreHeaderLine = $ignoreHeaderLine;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getIgnoreHeaderLine()
+    {
+        return $this->ignoreHeaderLine;
     }
 }

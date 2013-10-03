@@ -33,12 +33,13 @@ class Lexer implements LexerInterface
     {
         ini_set('auto_detect_line_endings', true); // For mac's office excel csv
 
-        $delimiter   = $this->config->getDelimiter();
-        $enclosure   = $this->config->getEnclosure();
-        $escape      = $this->config->getEscape();
-        $fromCharset = $this->config->getFromCharset();
-        $toCharset   = $this->config->getToCharset();
-        $flags       = $this->config->getFlags();
+        $delimiter      = $this->config->getDelimiter();
+        $enclosure      = $this->config->getEnclosure();
+        $escape         = $this->config->getEscape();
+        $fromCharset    = $this->config->getFromCharset();
+        $toCharset      = $this->config->getToCharset();
+        $flags          = $this->config->getFlags();
+        $ignoreHeader   = $this->config->getIgnoreHeaderLine();
 
         if ( $fromCharset === null ) {
             $url = $filename;
@@ -53,7 +54,10 @@ class Lexer implements LexerInterface
         $originalLocale = setlocale(LC_ALL, '0'); // Backup current locale
         setlocale(LC_ALL, 'en_US.UTF-8');
 
-        foreach ( $csv as $line ) {
+        foreach ( $csv as $lineNumber => $line ) {
+            if ($ignoreHeader && $lineNumber == 0) {
+                continue;
+            }
             $interpreter->interpret($line);
         }
 

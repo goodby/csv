@@ -122,4 +122,30 @@ class LexerTest extends \PHPUnit_Framework_TestCase
             array("16", "スティック型", "carot@eample.com"),
         ), $csvContents);
     }
+
+    public function test_ignore_header()
+    {
+        $csvFilename = CSVFiles::getIssue5CSV();
+
+        $config = new LexerConfig();
+        $config
+          ->setIgnoreHeaderLine(true)
+          ->setToCharset('UTF-8')
+          ->setFromCharset('UTF-8');
+
+        $lexer = new Lexer($config);
+
+        $interpreter = new Interpreter();
+        $interpreter->addObserver(function(array $columns) use (&$csvContents) {
+            $csvContents[] = $columns;
+        });
+
+        $lexer->parse($csvFilename, $interpreter);
+        $this->assertSame(array(
+            array("1", "スティック型クリーナ", "alice_updated@example.com"),
+            array("2", "bob", "bob@example.com"),
+            array("14", "スティック型クリーナ", "tho@eample.com"),
+            array("16", "スティック型", "carot@eample.com"),
+        ), $csvContents);
+    }
 }
