@@ -64,9 +64,9 @@ class CsvFileObject extends SplFileObject
         fclose($fp);
 
         /**
-         * Because php_fputcsv() implementation in PHP source code
-         * has hardcoded "\n", this method replace last LF code
-         * with what client code wish.
+         * Because the php_fputcsv() implementation in PHP´s source code
+         * has a hardcoded "\n", this method replaces the last LF code
+         * with what the client code wishes.
          */
         $line = rtrim($line, "\n"). $this->newline;
 
