@@ -84,8 +84,6 @@ class Interpreter implements InterpreterInterface
      */
     private function delegate($observer, $line)
     {
-        $this->checkCallable($observer);
-
         call_user_func($observer, $line);
     }
 
