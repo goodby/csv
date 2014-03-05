@@ -53,6 +53,7 @@ class Exporter implements ExporterInterface
     {
         $delimiter   = $this->config->getDelimiter();
         $enclosure   = $this->config->getEnclosure();
+        $enclosure   = empty($enclosure) ? "\0" : $enclosure;
         $newline     = $this->config->getNewline();
         $fromCharset = $this->config->getFromCharset();
         $toCharset   = $this->config->getToCharset();

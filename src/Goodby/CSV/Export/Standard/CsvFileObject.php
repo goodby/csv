@@ -69,7 +69,12 @@ class CsvFileObject extends SplFileObject
          * with what the client code wishes.
          */
         $line = rtrim($line, "\n"). $this->newline;
-
+        
+        // if the enclosure was '' | false
+        if (empty($enclosure)) {
+            $line = str_replace("\0", '', $line);
+        }
+        
         if ( is_callable($this->csvFilter) ) {
             $line = call_user_func($this->csvFilter, $line);
         }
