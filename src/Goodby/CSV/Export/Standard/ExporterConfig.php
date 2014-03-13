@@ -44,6 +44,12 @@ class ExporterConfig
     private $toCharset = null;
 
     /**
+     * write column names in first line of csv
+     * @var bool
+     */
+    private $writeColumnNames = false;
+
+    /**
      * File mode
      * @var string
      */
@@ -187,5 +193,25 @@ class ExporterConfig
     public function getFileMode()
     {
         return $this->fileMode;
+    }
+
+    /**
+     * Set option for writing column names
+     * @param bool $writeColumnNames
+     * @return ExporterConfig
+     */
+    public function setWriteColumnNames($writeColumnNames)
+    {
+        $this->writeColumnNames = $writeColumnNames;
+        return $this;
+    }
+
+    /**
+     * Return file mode
+     * @return string
+     */
+    public function getWriteColumnNames()
+    {
+        return $this->writeColumnNames;
     }
 }
