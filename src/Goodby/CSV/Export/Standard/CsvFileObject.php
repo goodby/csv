@@ -64,17 +64,12 @@ class CsvFileObject extends SplFileObject
         fclose($fp);
 
         /**
-         * Because the php_fputcsv() implementation in PHP´s source code
-         * has a hardcoded "\n", this method replaces the last LF code
-         * with what the client code wishes.
+         * Because php_fputcsv() implementation in PHP source code
+         * has hardcoded "\n", this method replace last LF code
+         * with what client code wish.
          */
         $line = rtrim($line, "\n"). $this->newline;
-        
-        // if the enclosure was '' | false
-        if (empty($enclosure)) {
-            $line = str_replace("\0", '', $line);
-        }
-        
+
         if ( is_callable($this->csvFilter) ) {
             $line = call_user_func($this->csvFilter, $line);
         }
