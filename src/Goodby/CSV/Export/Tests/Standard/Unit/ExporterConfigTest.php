@@ -47,4 +47,17 @@ class ExporterConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(null, $config->getToCharset());
         $this->assertSame('UTF-8', $config->setToCharset('UTF-8')->getToCharset());
     }
+
+    public function testColumnHeaders()
+    {
+        $columnHeaders = array(
+            'Header 1',
+            'Header 2',
+            'Header 3',
+        );
+
+        $config = new ExporterConfig();
+        $this->assertSame(array(), $config->getColumnHeaders());
+        $this->assertSame($columnHeaders, $config->setColumnHeaders($columnHeaders)->getColumnHeaders());
+    }
 }

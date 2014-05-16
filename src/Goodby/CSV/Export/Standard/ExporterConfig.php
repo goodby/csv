@@ -50,6 +50,12 @@ class ExporterConfig
     private $fileMode = CsvFileObject::FILE_MODE_WRITE;
 
     /**
+     * The column headers.
+     * @var array
+     */
+    private $columnHeaders = array();
+
+    /**
      * Set delimiter
      * @param string $delimiter
      * @return ExporterConfig
@@ -187,5 +193,25 @@ class ExporterConfig
     public function getFileMode()
     {
         return $this->fileMode;
+    }
+
+    /**
+     * Set the column headers.
+     * @param array $headers
+     * @return ExporterConfig
+     */
+    public function setColumnHeaders(array $columnHeaders)
+    {
+        $this->columnHeaders = $columnHeaders;
+        return $this;
+    }
+
+    /**
+     * Get the column headers.
+     * @return array
+     */
+    public function getColumnHeaders()
+    {
+        return $this->columnHeaders;
     }
 }
