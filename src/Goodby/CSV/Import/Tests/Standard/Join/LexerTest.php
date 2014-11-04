@@ -148,4 +148,11 @@ class LexerTest extends \PHPUnit_Framework_TestCase
             array("16", "スティック型", "carot@eample.com"),
         ), $csvContents);
     }
+
+    public function test_instantiation_without_config()
+    {
+        $lexer = new Lexer();
+
+        $this->assertInstanceOf('Goodby\CSV\Import\Standard\Lexer', $lexer);
+    }
 }
