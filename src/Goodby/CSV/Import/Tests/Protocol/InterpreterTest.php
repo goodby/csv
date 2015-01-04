@@ -6,7 +6,6 @@ use Goodby\CSV\Import\Protocol\Exception\InvalidLexicalException;
 
 /**
  * unit test for Interface of the Interpreter
- *
  */
 class InterpreterTest extends \PHPUnit_Framework_TestCase
 {
@@ -17,8 +16,9 @@ class InterpreterTest extends \PHPUnit_Framework_TestCase
         $interpreter = $this->getMock('\Goodby\CSV\Import\Protocol\InterpreterInterface');
 
         $interpreter->expects($this->once())
-                    ->method('interpret')
-                    ->with($this->identicalTo($line));
+            ->method('interpret')
+            ->with($this->identicalTo($line))
+        ;
 
         $interpreter->interpret($line);
     }
@@ -31,8 +31,9 @@ class InterpreterTest extends \PHPUnit_Framework_TestCase
         $interpreter = $this->getMock('\Goodby\CSV\Import\Protocol\InterpreterInterface');
 
         $interpreter->expects($this->once())
-                    ->method('interpret')
-                    ->will($this->throwException(new InvalidLexicalException()));
+            ->method('interpret')
+            ->will($this->throwException(new InvalidLexicalException()))
+        ;
 
         $line = "INVALID LEXICAL";
 

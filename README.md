@@ -44,7 +44,7 @@ Goodby CSV is fully unit-tested. The library is stable and ready to be used in l
 
 Install composer in your project:
 
-```
+```bash
 curl -s http://getcomposer.org/installer | php
 ```
 
@@ -60,7 +60,7 @@ Create a `composer.json` file in your project root:
 
 Install via composer:
 
-```
+```bash
 php composer.phar install
 ```
 
@@ -130,7 +130,7 @@ $lexer->parse('rough.csv', $interpreter);
 
 user.csv:
 
-```
+```csv
 1,alice,alice@example.com
 2,bob,bob@example.com
 3,carol,carol@eample.com
@@ -155,14 +155,13 @@ $interpreter->addObserver(function(array $columns) use ($pdo) {
 });
 
 $lexer->parse('user.csv', $interpreter);
-
 ```
 
 ### Import from TSV(tab separated values) to array
 
 temperature.tsv:
 
-```
+```csv
 9	Tokyo
 27	Singapore
 -5	Seoul
@@ -302,7 +301,7 @@ We works under test driven development.
 
 Checkout master source code from github:
 
-```
+```bash
 hub clone goodby/csv
 ```
 
@@ -318,10 +317,10 @@ composer.phar install --dev
 
 Run phpunit:
 
-```
+```bash
 ./vendor/bin/phpunit
 ```
 
 ## Acknowledgement
 
-editing...
+Credits are found within composer.json file.

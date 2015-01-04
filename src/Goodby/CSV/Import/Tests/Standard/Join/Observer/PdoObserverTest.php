@@ -11,7 +11,6 @@ use Goodby\CSV\TestHelper\DbManager;
 
 /**
  * unit test for pdo observer
- *
  */
 class PdoObserverTest extends \PHPUnit_Framework_TestCase
 {

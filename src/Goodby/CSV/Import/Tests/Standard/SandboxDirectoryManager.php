@@ -3,7 +3,7 @@
 namespace Goodby\CSV\Import\Tests\Standard;
 
 /**
- * 結合テストでファイルシステムと結合するときに使うサンドボックスディレクトリを管理する
+ * Managing sandbox directory to use when joining with the file system for tests
  */
 class SandboxDirectoryManager
 {

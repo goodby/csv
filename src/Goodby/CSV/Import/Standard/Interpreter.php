@@ -8,7 +8,6 @@ use Goodby\CSV\Import\Standard\Exception\StrictViolationException;
 
 /**
  * standard interpreter
- *
  */
 class Interpreter implements InterpreterInterface
 {
