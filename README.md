@@ -215,6 +215,7 @@ $exporter->export('php://output', array(
 ```php
 use Goodby\CSV\Export\Standard\Exporter;
 use Goodby\CSV\Export\Standard\ExporterConfig;
+use Goodby\CSV\Export\Standard\CsvFileObject;
 use Goodby\CSV\Export\Standard\Collection\PdoCollection;
 
 $pdo = new PDO('mysql:host=localhost;dbname=test', 'root', 'root');
