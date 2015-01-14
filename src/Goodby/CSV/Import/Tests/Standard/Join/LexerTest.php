@@ -7,8 +7,6 @@ use Goodby\CSV\Import\Standard\Lexer;
 use Goodby\CSV\Import\Standard\Interpreter;
 use Goodby\CSV\Import\Standard\LexerConfig;
 
-use Goodby\CSV\Import\Tests\Standard\Join\CSVFiles;
-
 class LexerTest extends \PHPUnit_Framework_TestCase
 {
     public function test_shift_jis_CSV()

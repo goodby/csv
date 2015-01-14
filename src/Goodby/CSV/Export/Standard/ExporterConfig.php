@@ -197,12 +197,13 @@ class ExporterConfig
 
     /**
      * Set the column headers.
-     * @param array $headers
+     * @param array $columnHeaders
      * @return ExporterConfig
      */
     public function setColumnHeaders(array $columnHeaders)
     {
         $this->columnHeaders = $columnHeaders;
+
         return $this;
     }
 

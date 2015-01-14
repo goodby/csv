@@ -4,9 +4,7 @@ namespace Goodby\CSV\Export\Standard;
 
 use Goodby\CSV\Export\Protocol\ExporterInterface;
 use Goodby\CSV\Export\Protocol\Exception\IOException;
-use Goodby\CSV\Export\Standard\ExporterConfig;
 use Goodby\CSV\Export\Standard\Exception\StrictViolationException;
-use SplFileObject;
 
 /**
  * Standard exporter class

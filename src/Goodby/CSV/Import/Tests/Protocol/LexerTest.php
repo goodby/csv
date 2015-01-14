@@ -32,8 +32,9 @@ class LexerTest extends \PHPUnit_Framework_TestCase
         $path = 'invalid_dummy.csv';
 
         $lexer->shouldReceive('parse')
-              ->with($path, $interpreter)
-              ->andThrow('Goodby\CSV\Import\Protocol\Exception\CsvFileNotFoundException');
+            ->with($path, $interpreter)
+            ->andThrow('Goodby\CSV\Import\Protocol\Exception\CsvFileNotFoundException')
+        ;
 
         $lexer->parse($path, $interpreter);
     }
