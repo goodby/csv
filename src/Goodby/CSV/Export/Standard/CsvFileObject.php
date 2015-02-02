@@ -44,9 +44,10 @@ class CsvFileObject extends SplFileObject
      * @param array   $fields
      * @param string  $delimiter
      * @param string  $enclosure
+     * @param useless  $escape  THIS PARAM IS UNSED, BUT REQUIRED EXISTS, see https://bugs.php.net/bug.php?id=68479 and https://github.com/goodby/csv/issues/56
      * @return int|void
      */
-    public function fputcsv($fields, $delimiter = null, $enclosure = null)
+    public function fputcsv($fields, $delimiter = null, $enclosure = null, $escape = null)
     {
         // Temporary output a line to memory to get line as string
         $fp = fopen('php://temp', 'w+');
@@ -69,12 +70,12 @@ class CsvFileObject extends SplFileObject
          * with what the client code wishes.
          */
         $line = rtrim($line, "\n"). $this->newline;
-        
+
         // if the enclosure was '' | false
         if (empty($enclosure)) {
             $line = str_replace("\0", '', $line);
         }
-        
+
         if ( is_callable($this->csvFilter) ) {
             $line = call_user_func($this->csvFilter, $line);
         }
