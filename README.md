@@ -4,7 +4,7 @@
 
 ## What is "Goodby CSV"?
 
-Goodby CSV is a high memory efficient flexible and extendable open-source CSV import/export library.
+Goodby CSV is a highly memory efficient, flexible and extendable open-source CSV import/export library.
 
 ```php
 use Goodby\CSV\Import\Standard\Lexer;
@@ -25,7 +25,7 @@ $lexer->parse('data.csv', $interpreter);
 
 #### 1. Memory Management Free
 
-This library designed for memory unbreakable. It will not be accumulated in the memory whole rows. The importer read CSV file and execute callback function line by line.
+This library was designed for low memory usage. It will not accumulate all the rows in the memory. The importer reads a CSV file and executes a callback function line by line.
 
 #### 2. Multibyte support
 
@@ -101,7 +101,7 @@ $config
 
 ### Unstrict Row Consistency Mode
 
-As default, Goodby CSV throws `StrictViolationException` when it meet with a row which column count is different from the other columns. In the case you want to import such a CSV, you can call `Interpreter::unstrict()` to disable row consistency check at importing process
+By default, Goodby CSV throws `StrictViolationException` when it finds a row with a different column count to other columns. In the case you want to import such a CSV, you can call `Interpreter::unstrict()` to disable row consistency check at import.
 
 rough.csv:
 
@@ -157,7 +157,7 @@ $interpreter->addObserver(function(array $columns) use ($pdo) {
 $lexer->parse('user.csv', $interpreter);
 ```
 
-### Import from TSV(tab separated values) to array
+### Import from TSV (tab separated values) to array
 
 temperature.tsv:
 
