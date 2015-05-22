@@ -39,6 +39,6 @@ class InterpreterTest extends \PHPUnit_Framework_TestCase
         $line = "INVALID LEXICAL";
         $url  = 'filepath';
 
-        $interpreter->interpret($line), $url;
+        $interpreter->interpret($line, $url);
     }
 }
