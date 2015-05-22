@@ -12,6 +12,7 @@ class InterpreterTest extends \PHPUnit_Framework_TestCase
     public function testInterpreterInterface()
     {
         $line = array();
+        $url  = 'filepath';
 
         $interpreter = $this->getMock('\Goodby\CSV\Import\Protocol\InterpreterInterface');
 
@@ -20,7 +21,7 @@ class InterpreterTest extends \PHPUnit_Framework_TestCase
             ->with($this->identicalTo($line))
         ;
 
-        $interpreter->interpret($line);
+        $interpreter->interpret($line, $url);
     }
 
     /**
@@ -36,7 +37,8 @@ class InterpreterTest extends \PHPUnit_Framework_TestCase
         ;
 
         $line = "INVALID LEXICAL";
+        $url  = 'filepath';
 
-        $interpreter->interpret($line);
+        $interpreter->interpret($line), $url;
     }
 }
