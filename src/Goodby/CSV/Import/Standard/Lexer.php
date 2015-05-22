@@ -60,7 +60,7 @@ class Lexer implements LexerInterface
             if ($ignoreHeader && $lineNumber == 0 || (count($line) === 1 && empty($line[0]))) {
                 continue;
             }
-            $interpreter->interpret($line);
+            $interpreter->interpret($line, $url);
         }
 
         parse_str(str_replace(';', '&', $originalLocale), $locale_array);

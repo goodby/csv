@@ -11,5 +11,5 @@ interface InterpreterInterface
      * @param $line
      * @return void
      */
-    public function interpret($line);
+    public function interpret($line, $url);
 }

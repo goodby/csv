@@ -33,7 +33,7 @@ class Interpreter implements InterpreterInterface
      * @return void
      * @throws \Goodby\CSV\Import\Protocol\Exception\InvalidLexicalException
      */
-    public function interpret($line)
+    public function interpret($line, $url)
     {
         $this->checkRowConsistency($line);
 
@@ -41,7 +41,7 @@ class Interpreter implements InterpreterInterface
             throw new InvalidLexicalException('line is must be array');
         }
 
-        $this->notify($line);
+        $this->notify($line, $url);
     }
 
     public function unstrict()
@@ -66,12 +66,12 @@ class Interpreter implements InterpreterInterface
      *
      * @param $line
      */
-    private function notify($line)
+    private function notify($line, $url)
     {
         $observers = $this->observers;
 
         foreach ($observers as $observer) {
-            $this->delegate($observer, $line);
+            $this->delegate($observer, $line, $url);
         }
     }
 
@@ -81,9 +81,9 @@ class Interpreter implements InterpreterInterface
      * @param $observer
      * @param $line
      */
-    private function delegate($observer, $line)
+    private function delegate($observer, $line, $url)
     {
-        call_user_func($observer, $line);
+        call_user_func($observer, $line, $url);
     }
 
     /**
