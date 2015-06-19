@@ -57,7 +57,7 @@ class Lexer implements LexerInterface
         setlocale(LC_ALL, 'en_US.UTF-8');
 
         foreach ( $csv as $lineNumber => $line ) {
-            if ($ignoreHeader && $lineNumber == 0 || (count($line) === 1 && empty($line[0]))) {
+            if ($ignoreHeader && $lineNumber == 0 || (count($line) === 1 && trim($line[0]) === '')) {
                 continue;
             }
             $interpreter->interpret($line);
