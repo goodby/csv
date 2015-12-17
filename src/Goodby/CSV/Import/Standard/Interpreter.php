@@ -27,6 +27,11 @@ class Interpreter implements InterpreterInterface
     private $strict = true;
 
     /**
+     * @var array
+     */
+    private $headers = array();
+
+    /**
      * interpret line
      *
      * @param $line
@@ -41,7 +46,29 @@ class Interpreter implements InterpreterInterface
             throw new InvalidLexicalException('line is must be array');
         }
 
+        if (!empty($this->headers)) {
+            $line = array_combine($this->headers, $line);
+        }
+
         $this->notify($line);
+    }
+
+    /**
+     * set column headers
+     *
+     * @param $line
+     * @return void
+     * @throws \Goodby\CSV\Import\Protocol\Exception\InvalidLexicalException
+     */
+    public function setHeaders($line)
+    {
+        $this->checkRowConsistency($line);
+
+        if (!is_array($line)) {
+            throw new InvalidLexicalException('line is must be array');
+        }
+
+        $this->headers = $line;
     }
 
     public function unstrict()

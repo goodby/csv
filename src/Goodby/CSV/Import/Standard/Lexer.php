@@ -42,6 +42,7 @@ class Lexer implements LexerInterface
         $toCharset      = $this->config->getToCharset();
         $flags          = $this->config->getFlags();
         $ignoreHeader   = $this->config->getIgnoreHeaderLine();
+        $namedColumns   = $this->config->getUseNamedColumns();
 
         if ( $fromCharset === null ) {
             $url = $filename;
@@ -58,6 +59,10 @@ class Lexer implements LexerInterface
 
         foreach ( $csv as $lineNumber => $line ) {
             if ($ignoreHeader && $lineNumber == 0 || (count($line) === 1 && trim($line[0]) === '')) {
+                continue;
+            }
+            else if ($namedColumns && $lineNumber == 0) {
+                $interpreter->setHeaders($line);
                 continue;
             }
             $interpreter->interpret($line);

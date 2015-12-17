@@ -45,6 +45,11 @@ class LexerConfig
     private $ignoreHeaderLine = false;
 
     /**
+     * @var bool
+     */
+    private $useNamedColumns = false;
+
+    /**
      * Set delimiter
      * @param string $delimiter
      * @return LexerConfig
@@ -181,5 +186,24 @@ class LexerConfig
     public function getIgnoreHeaderLine()
     {
         return $this->ignoreHeaderLine;
+    }
+
+    /**
+     * Enable named columns. getIgnoreHeaderLine() must be false to use this.
+     * @param $useNamedColumns
+     * @return $this
+     */
+    public function setUseNamedColumns($useNamedColumns)
+    {
+        $this->useNamedColumns = $useNamedColumns;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getUseNamedColumns()
+    {
+        return $this->useNamedColumns;
     }
 }

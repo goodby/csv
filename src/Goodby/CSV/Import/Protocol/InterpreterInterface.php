@@ -12,4 +12,10 @@ interface InterpreterInterface
      * @return void
      */
     public function interpret($line);
+
+    /**
+     * @param $line
+     * @return void
+     */
+    public function setHeaders($line);
 }
