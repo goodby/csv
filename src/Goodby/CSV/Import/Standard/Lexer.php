@@ -2,8 +2,8 @@
 
 namespace Goodby\CSV\Import\Standard;
 
-use Goodby\CSV\Import\Protocol\LexerInterface;
 use Goodby\CSV\Import\Protocol\InterpreterInterface;
+use Goodby\CSV\Import\Protocol\LexerInterface;
 use Goodby\CSV\Import\Standard\StreamFilter\ConvertMbstringEncoding;
 use SplFileObject;
 
@@ -50,8 +50,13 @@ class Lexer implements LexerInterface
         }
 
         $csv = new SplFileObject($url);
-        $csv->setCsvControl($delimiter, $enclosure, $escape);
         $csv->setFlags($flags);
+
+        if (empty($enclosure)) {
+            $csv->setCsvControl($delimiter);
+        } else {
+            $csv->setCsvControl($delimiter, $enclosure, $escape);
+        }
 
         $originalLocale = setlocale(LC_ALL, '0'); // Backup current locale
         setlocale(LC_ALL, 'en_US.UTF-8');
