@@ -19,6 +19,9 @@ matrix:
       - php: 7.1
         dist: trusty
         sudo: required
+      - php: 7.2
+        dist: trusty
+        sudo: required
 
 before_script:
   - ./scripts/bundle-devtools.sh .
