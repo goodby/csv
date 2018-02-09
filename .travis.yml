@@ -14,12 +14,10 @@ matrix:
         dist: trusty
       - php: 7.1
         dist: trusty
-      - php: 7.2
-        dist: trusty
-# allow 7.2 to fail as phpunit 3 not working correctly with php 7.2
-    allow_failures:
-      - php: 7.2
-        dist: trusty
+# PHP 7.2 can currently not been tested because of incompatibility with PHPUnit 3
+# atleast PHPUnit 7.0 would be needed which don't support 5.3
+#      - php: 7.2
+#        dist: trusty
 
 before_script:
   - ./scripts/bundle-devtools.sh .
