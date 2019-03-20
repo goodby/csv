@@ -149,7 +149,7 @@ $lexer = new Lexer($config);
 
 $interpreter = new Interpreter();
 
-$interpreter->addObserver(function(array $columns) use ($pdo) {
+$interpreter->addObserver(function(array $columns, $url) use ($pdo) {
     $stmt = $pdo->prepare('INSERT INTO user (id, name, email) VALUES (?, ?, ?)');
     $stmt->execute($columns);
 });
@@ -180,7 +180,7 @@ $config->setDelimiter("\t");
 $lexer = new Lexer($config);
 
 $interpreter = new Interpreter();
-$interpreter->addObserver(function(array $row) use (&$temperature) {
+$interpreter->addObserver(function(array $row, $url) use (&$temperature) {
     $temperature[] = array(
         'temperature' => $row[0],
         'city'        => $row[1],
