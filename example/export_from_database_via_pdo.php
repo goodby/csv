@@ -11,28 +11,28 @@ $pdo = new PDO('mysql:host=localhost;dbname=test', 'root', 'root');
 
 try{
 
-	$pdo->beginTransaction();
+    $pdo->beginTransaction();
 
-	$pdo->commit();
+    $pdo->commit();
 
-	$pdo->query('CREATE TABLE IF NOT EXISTS user (id INT, `name` VARCHAR(255), email VARCHAR(255))');
-	$pdo->query("INSERT INTO user VALUES(1, 'alice', 'alice@example.com')");
-	$pdo->query("INSERT INTO user VALUES(2, 'bob', 'bob@example.com')");
-	$pdo->query("INSERT INTO user VALUES(3, 'carol', 'carol@example.com')");
+    $pdo->query('CREATE TABLE IF NOT EXISTS user (id INT, `name` VARCHAR(255), email VARCHAR(255))');
+    $pdo->query("INSERT INTO user VALUES(1, 'alice', 'alice@example.com')");
+    $pdo->query("INSERT INTO user VALUES(2, 'bob', 'bob@example.com')");
+    $pdo->query("INSERT INTO user VALUES(3, 'carol', 'carol@example.com')");
 
-	$config = new ExporterConfig();
-	$exporter = new Exporter($config);
+    $config = new ExporterConfig();
+    $exporter = new Exporter($config);
 
-	$stmt = $pdo->prepare("SELECT * FROM user");
-	$stmt->execute();
+    $stmt = $pdo->prepare("SELECT * FROM user");
+    $stmt->execute();
 
-	$exporter->export('php://output', new PdoCollection($stmt));
+    $exporter->export('php://output', new PdoCollection($stmt));
 
 } catch(Exception $e) {
 
-	echo $e->getMessage();
-	$pdo->rollBack();
-
+    echo $e->getMessage();
+    $pdo->rollBack();
+    
 }
 
 
