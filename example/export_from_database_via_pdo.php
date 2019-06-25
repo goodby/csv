@@ -9,7 +9,7 @@ use Goodby\CSV\Export\Standard\Collection\PdoCollection;
 
 $pdo = new PDO('mysql:host=localhost;dbname=test', 'root', 'root');
 
-try{
+try {
 
     $pdo->beginTransaction();
 
@@ -32,7 +32,7 @@ try{
 
     echo $e->getMessage();
     $pdo->rollBack();
-    
+
 }
 
 
