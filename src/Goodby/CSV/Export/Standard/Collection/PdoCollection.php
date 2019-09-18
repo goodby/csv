@@ -53,7 +53,7 @@ class PdoCollection implements Iterator
      */
     public function key()
     {
-        $this->current;
+        return $this->current;
     }
 
     /**
