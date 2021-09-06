@@ -173,7 +173,7 @@ use Goodby\CSV\Import\Standard\Lexer;
 use Goodby\CSV\Import\Standard\Interpreter;
 use Goodby\CSV\Import\Standard\LexerConfig;
 
-$temperature = array();
+$temperature = [];
 
 $config = new LexerConfig();
 $config->setDelimiter("\t");
@@ -181,10 +181,10 @@ $lexer = new Lexer($config);
 
 $interpreter = new Interpreter();
 $interpreter->addObserver(function(array $row) use (&$temperature) {
-    $temperature[] = array(
+    $temperature[] = [
         'temperature' => $row[0],
         'city'        => $row[1],
-    );
+    ];
 });
 
 $lexer->parse('temperature.tsv', $interpreter);
@@ -201,11 +201,11 @@ use Goodby\CSV\Export\Standard\ExporterConfig;
 $config = new ExporterConfig();
 $exporter = new Exporter($config);
 
-$exporter->export('php://output', array(
-    array('1', 'alice', 'alice@example.com'),
-    array('2', 'bob', 'bob@example.com'),
-    array('3', 'carol', 'carol@example.com'),
-));
+$exporter->export('php://output', [
+    ['1', 'alice', 'alice@example.com'],
+    ['2', 'bob', 'bob@example.com'],
+    ['3', 'carol', 'carol@example.com'],
+]);
 ```
 
 
@@ -240,10 +240,10 @@ use Goodby\CSV\Export\Standard\ExporterConfig;
 
 use Goodby\CSV\Export\Standard\Collection\CallbackCollection;
 
-$data = array();
-$data[] = array('user', 'name1');
-$data[] = array('user', 'name2');
-$data[] = array('user', 'name3');
+$data = [];
+$data[] = ['user', 'name1'];
+$data[] = ['user', 'name2'];
+$data[] = ['user', 'name3'];
 
 $collection = new CallbackCollection($data, function($row) {
     // apply custom format to the row
