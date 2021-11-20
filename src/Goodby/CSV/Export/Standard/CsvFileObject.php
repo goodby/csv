@@ -73,7 +73,7 @@ class CsvFileObject extends SplFileObject
         $line = rtrim($line, "\n"). $this->newline;
 
         // if the enclosure was '' | false
-        if (empty($enclosure)) {
+        if (empty($enclosure) || $enclosure === "\0") {
             $line = str_replace("\0", '', $line);
         }
 
