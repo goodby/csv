@@ -2,25 +2,25 @@
 
 namespace Goodby\CSV\Export\Tests\Standard\Join\Collection;
 
+use Goodby\CSV\Export\Standard\Collection\CallbackCollection;
 use Goodby\CSV\Export\Standard\Collection\PdoCollection;
 use Goodby\CSV\TestHelper\DbManager;
+use PHPUnit\Framework\TestCase;
 
-use Goodby\CSV\Export\Standard\Collection\CallbackCollection;
-
-class PdoCollectionTest extends \PHPUnit_Framework_TestCase
+class PdoCollectionTest extends TestCase
 {
     /**
-     * @var \Goodby\CSV\TestHelper\DbManager
+     * @var DbManager
      */
     private $manager = null;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->manager = new DbManager();
 
         $pdo = $this->manager->getPdo();
 
-        $stmt = $pdo->prepare("CREATE TABLE collection_test ( id INT, name VARCHAR(32) )");
+        $stmt = $pdo->prepare('CREATE TABLE collection_test ( id INT, name VARCHAR(32) )');
         $stmt->execute();
 
         $pdo->prepare("INSERT INTO collection_test VALUES(1, 'name')")->execute();
@@ -28,7 +28,7 @@ class PdoCollectionTest extends \PHPUnit_Framework_TestCase
         $pdo->prepare("INSERT INTO collection_test VALUES(3, 'name')")->execute();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->manager);
     }
@@ -37,13 +37,13 @@ class PdoCollectionTest extends \PHPUnit_Framework_TestCase
     {
         $pdo = $this->manager->getPdo();
 
-        $stmt = $pdo->prepare("SELECT * FROM collection_test");
+        $stmt = $pdo->prepare('SELECT * FROM collection_test');
         $stmt->execute();
 
         $pdoCollection = new PdoCollection($stmt);
 
         foreach ($pdoCollection as $line) {
-            $this->assertEquals("name", $line["name"]);
+            static::assertEquals('name', $line['name']);
         }
     }
 
@@ -51,18 +51,19 @@ class PdoCollectionTest extends \PHPUnit_Framework_TestCase
     {
         $pdo = $this->manager->getPdo();
 
-        $stmt = $pdo->prepare("SELECT * FROM collection_test");
+        $stmt = $pdo->prepare('SELECT * FROM collection_test');
         $stmt->execute();
 
         $pdoCollection = new PdoCollection($stmt);
 
         $callbackCollection = new CallbackCollection($pdoCollection, function($row) {
             $row['test'] = 'test';
+
             return $row;
         });
 
         foreach ($callbackCollection as $line) {
-            $this->assertEquals('test', $line['test']);
+            static::assertEquals('test', $line['test']);
         }
     }
 }

@@ -2,103 +2,128 @@
 
 namespace Goodby\CSV\Import\Tests\Standard\Join;
 
-use Mockery as m;
-use Goodby\CSV\Import\Standard\Lexer;
 use Goodby\CSV\Import\Standard\Interpreter;
+use Goodby\CSV\Import\Standard\Lexer;
 use Goodby\CSV\Import\Standard\LexerConfig;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use PHPUnit\Framework\TestCase;
+use Prophecy\Argument;
 
-class LexerTest extends \PHPUnit_Framework_TestCase
+class LexerTest extends TestCase
 {
-    public function test_shift_jis_CSV()
+    use MockeryPHPUnitIntegration;
+
+    public function testShiftJisCSV()
     {
         $shiftJisCsv = CSVFiles::getShiftJisCsv();
-        $lines = array(
-            array('あ', 'い', 'う', 'え', 'お'),
-            array('日本語', '日本語', '日本語', '日本語', '日本語'),
-            array('ぱ', 'ぴ', 'ぷ', 'ぺ', 'ぽ'),
-            array('"quoted"', "a'quote'", 'a, b and c', '', ''),
-        );
+        $lines = [
+            ['あ', 'い', 'う', 'え', 'お'],
+            ['日本語', '日本語', '日本語', '日本語', '日本語'],
+            ['ぱ', 'ぴ', 'ぷ', 'ぺ', 'ぽ'],
+            ['"quoted"', "a'quote'", 'a, b and c', '', ''],
+        ];
 
-        $interpreter = $this->getMock('Goodby\CSV\Import\Standard\Interpreter', array('interpret'));
-        $interpreter->expects($this->at(0))->method('interpret')->with($lines[0]);
-        $interpreter->expects($this->at(1))->method('interpret')->with($lines[1]);
-        $interpreter->expects($this->at(2))->method('interpret')->with($lines[2]);
-        $interpreter->expects($this->at(3))->method('interpret')->with($lines[3]);
+        $interpreter = $this->prophesize(Interpreter::class);
+        $interpreter->interpret(Argument::cetera())
+            ->shouldBeCalled()
+            ->willReturn(
+                $lines[0],
+                $lines[1],
+                $lines[2],
+                $lines[3]
+            );
 
         $config = new LexerConfig();
         $config->setToCharset('UTF-8')->setFromCharset('SJIS-win');
         $lexer = new Lexer($config);
-        $lexer->parse($shiftJisCsv, $interpreter);
+        $lexer->parse($shiftJisCsv, $interpreter->reveal());
     }
 
-    public function test_mac_excel_csv()
+    public function testMacExcelCsv()
     {
-        $csv   = CSVFiles::getMacExcelCsv();
+        $csv = CSVFiles::getMacExcelCsv();
         $lines = CSVFiles::getMacExcelLines();
 
-        $interpreter = $this->getMock('Goodby\CSV\Import\Standard\Interpreter', array('interpret'));
-        $interpreter->expects($this->at(0))->method('interpret')->with($lines[0]);
-        $interpreter->expects($this->at(1))->method('interpret')->with($lines[1]);
+        $interpreter = $this->prophesize(Interpreter::class);
+        $interpreter->interpret(Argument::cetera())
+            ->shouldBeCalled()
+            ->willReturn(
+                $lines[0],
+                $lines[1]
+            );
 
         $config = new LexerConfig();
         $lexer = new Lexer($config);
-        $lexer->parse($csv, $interpreter);
+        $lexer->parse($csv, $interpreter->reveal());
     }
 
-    public function test_tab_separated_csv()
+    public function testTabSeparatedCsv()
     {
-        $csv   = CSVFiles::getTabSeparatedCsv();
+        $csv = CSVFiles::getTabSeparatedCsv();
         $lines = CSVFiles::getTabSeparatedLines();
 
-        $interpreter = $this->getMock('Goodby\CSV\Import\Standard\Interpreter', array('interpret'));
-        $interpreter->expects($this->at(0))->method('interpret')->with($lines[0]);
-        $interpreter->expects($this->at(1))->method('interpret')->with($lines[1]);
+        $interpreter = $this->prophesize(Interpreter::class);
+        $interpreter->interpret(Argument::cetera())
+            ->shouldBeCalled()
+            ->willReturn(
+                $lines[0],
+                $lines[1]
+            );
 
         $config = new LexerConfig();
         $config->setDelimiter("\t");
         $lexer = new Lexer($config);
-        $lexer->parse($csv, $interpreter);
+        $lexer->parse($csv, $interpreter->reveal());
     }
 
-    public function test_colon_separated_csv()
+    public function testColonSeparatedCsv()
     {
-        $csv   = CSVFiles::getColonSeparatedCsv();
+        $csv = CSVFiles::getColonSeparatedCsv();
         $lines = CSVFiles::getColonSeparatedLines();
 
-        $interpreter = $this->getMock('Goodby\CSV\Import\Standard\Interpreter', array('interpret'));
-        $interpreter->expects($this->at(0))->method('interpret')->with($lines[0]);
-        $interpreter->expects($this->at(1))->method('interpret')->with($lines[1]);
+        $interpreter = $this->prophesize(Interpreter::class);
+        $interpreter->interpret(Argument::cetera())
+            ->shouldBeCalled()
+            ->willReturn(
+                $lines[0],
+                $lines[1]
+            );
 
         $config = new LexerConfig();
         $config->setDelimiter(':');
         $lexer = new Lexer($config);
-        $lexer->parse($csv, $interpreter);
+        $lexer->parse($csv, $interpreter->reveal());
     }
 
-    public function test_utf8_csv()
+    public function testUtf8Csv()
     {
-        $csv   = CSVFiles::getUtf8Csv();
+        $csv = CSVFiles::getUtf8Csv();
         $lines = CSVFiles::getUtf8Lines();
 
-        $interpreter = $this->getMock('Goodby\CSV\Import\Standard\Interpreter', array('interpret'));
-        $interpreter->expects($this->at(0))->method('interpret')->with($lines[0]);
-        $interpreter->expects($this->at(1))->method('interpret')->with($lines[1]);
+        $interpreter = $this->prophesize(Interpreter::class);
+        $interpreter->interpret(Argument::cetera())
+            ->shouldBeCalled()
+            ->willReturn(
+                $lines[0],
+                $lines[1]
+            );
 
         $config = new LexerConfig();
         $lexer = new Lexer($config);
-        $lexer->parse($csv, $interpreter);
+        $lexer->parse($csv, $interpreter->reveal());
     }
 
     /**
      * When import CSV file with data in Japanese (2 bytes character),
-     * data imported to database with error encoding
-     * @link https://github.com/goodby/csv/issues/5
+     * data imported to database with error encoding.
+     *
+     * @see https://github.com/goodby/csv/issues/5
      */
-    public function test_issue_5()
+    public function testIssue5()
     {
         $csvFilename = CSVFiles::getIssue5CSV();
 
-        $csvContents = array();
+        $csvContents = [];
 
         $config = new LexerConfig();
         $config
@@ -111,17 +136,17 @@ class LexerTest extends \PHPUnit_Framework_TestCase
         });
 
         $lexer->parse($csvFilename, $interpreter);
-        
-        $this->assertSame(array(
-            array("ID", "NAME", "MAKER"),
-            array("1", "スティック型クリーナ", "alice_updated@example.com"),
-            array("2", "bob", "bob@example.com"),
-            array("14", "スティック型クリーナ", "tho@eample.com"),
-            array("16", "スティック型", "carot@eample.com"),
-        ), $csvContents);
+
+        static::assertSame([
+            ['ID', 'NAME', 'MAKER'],
+            ['1', 'スティック型クリーナ', 'alice_updated@example.com'],
+            ['2', 'bob', 'bob@example.com'],
+            ['14', 'スティック型クリーナ', 'tho@eample.com'],
+            ['16', 'スティック型', 'carot@eample.com'],
+        ], $csvContents);
     }
 
-    public function test_ignore_header()
+    public function testIgnoreHeader()
     {
         $csvFilename = CSVFiles::getIssue5CSV();
 
@@ -139,18 +164,18 @@ class LexerTest extends \PHPUnit_Framework_TestCase
         });
 
         $lexer->parse($csvFilename, $interpreter);
-        $this->assertSame(array(
-            array("1", "スティック型クリーナ", "alice_updated@example.com"),
-            array("2", "bob", "bob@example.com"),
-            array("14", "スティック型クリーナ", "tho@eample.com"),
-            array("16", "スティック型", "carot@eample.com"),
-        ), $csvContents);
+        static::assertSame([
+            ['1', 'スティック型クリーナ', 'alice_updated@example.com'],
+            ['2', 'bob', 'bob@example.com'],
+            ['14', 'スティック型クリーナ', 'tho@eample.com'],
+            ['16', 'スティック型', 'carot@eample.com'],
+        ], $csvContents);
     }
 
-    public function test_instantiation_without_config()
+    public function testInstantiationWithoutConfig()
     {
         $lexer = new Lexer();
 
-        $this->assertInstanceOf('Goodby\CSV\Import\Standard\Lexer', $lexer);
+        static::assertInstanceOf(Lexer::class, $lexer);
     }
 }

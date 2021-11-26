@@ -2,19 +2,23 @@
 
 namespace Goodby\CSV\Import\Tests\Standard\Unit;
 
-use Mockery as m;
-
+use Goodby\CSV\Import\Protocol\Exception\InvalidLexicalException;
+use Goodby\CSV\Import\Standard\Exception\StrictViolationException;
 use Goodby\CSV\Import\Standard\Interpreter;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use Mockery as m;
+use PHPUnit\Framework\TestCase;
 
 /**
- * unit test for Standard Implementation of the Interpreter
- *
+ * unit test for Standard Implementation of the Interpreter.
  */
-class InterpreterTest extends \PHPUnit_Framework_TestCase
+class InterpreterTest extends TestCase
 {
+    use MockeryPHPUnitIntegration;
+
     private $expectedLine;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->expectedLine = null;
     }
@@ -23,37 +27,36 @@ class InterpreterTest extends \PHPUnit_Framework_TestCase
      * @requires PHP 5.4
      */
     public function testStandardInterpreterWithClosure()
-	{
-        $this->expectedLine = array('test', 'test', 'test');
+    {
+        $this->expectedLine = ['test', 'test', 'test'];
 
         $interpreter = new Interpreter();
         $interpreter->addObserver(function($line) {
-            $this->assertEquals($this->expectedLine, $line);
+            static::assertEquals($this->expectedLine, $line);
         });
 
         $interpreter->interpret($this->expectedLine);
-	}
+    }
 
     public function testStandardInterpreterWithObject()
     {
-        $this->expectedLine = array('test', 'test', 'test');
+        $this->expectedLine = ['test', 'test', 'test'];
 
-        $object = m::mock('stdClass');
+        $object = m::mock(\stdClass::class);
         $object->shouldReceive('callback')->with($this->expectedLine)->once();
 
         $interpreter = new Interpreter();
-        $interpreter->addObserver(array($object, 'callback'));
+        $interpreter->addObserver([$object, 'callback']);
 
         $interpreter->interpret($this->expectedLine);
     }
 
-    /**
-     * @expectedException \Goodby\CSV\Import\Standard\Exception\StrictViolationException
-     */
     public function testInconsistentColumns()
     {
-        $lines[] = array('test', 'test', 'test');
-        $lines[] = array('test', 'test');
+        $this->expectException(StrictViolationException::class);
+        $lines = [];
+        $lines[] = ['test', 'test', 'test'];
+        $lines[] = ['test', 'test'];
 
         $interpreter = new Interpreter();
 
@@ -62,25 +65,12 @@ class InterpreterTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    /**
-     * @expectedException \Goodby\CSV\Import\Standard\Exception\StrictViolationException
-     */
     public function testInconsistentColumnsLowToHigh()
     {
-        $lines[] = array('test', 'test');
-        $lines[] = array('test', 'test', 'test');
-
-        $interpreter = new Interpreter();
-
-        foreach ($lines as $line) {
-            $interpreter->interpret($line);
-        }
-    }
-
-    public function testConsistentColumns()
-    {
-        $lines[] = array('test', 'test', 'test');
-        $lines[] = array('test', 'test', 'test');
+        $this->expectException(StrictViolationException::class);
+        $lines = [];
+        $lines[] = ['test', 'test'];
+        $lines[] = ['test', 'test', 'test'];
 
         $interpreter = new Interpreter();
 
@@ -90,13 +80,31 @@ class InterpreterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * use un-strict won't throw exception with inconsistent columns
+     * @doesNotPerformAssertions
+     */
+    public function testConsistentColumns()
+    {
+        $lines = [];
+        $lines[] = ['test', 'test', 'test'];
+        $lines[] = ['test', 'test', 'test'];
+
+        $interpreter = new Interpreter();
+
+        foreach ($lines as $line) {
+            $interpreter->interpret($line);
+        }
+    }
+
+    /**
+     * use un-strict won't throw exception with inconsistent columns.
      *
+     * @doesNotPerformAssertions
      */
     public function testInconsistentColumnsWithUnStrict()
     {
-        $lines[] = array('test', 'test', 'test');
-        $lines[] = array('test', 'test');
+        $lines = [];
+        $lines[] = ['test', 'test', 'test'];
+        $lines[] = ['test', 'test'];
 
         $interpreter = new Interpreter();
         $interpreter->unstrict();
@@ -106,11 +114,9 @@ class InterpreterTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    /**
-     * @expectedException \Goodby\CSV\Import\Protocol\Exception\InvalidLexicalException
-     */
     public function testStandardInterpreterWithInvalidLexical()
     {
+        $this->expectException(InvalidLexicalException::class);
         $this->expectedLine = '';
 
         $interpreter = new Interpreter();
@@ -118,11 +124,9 @@ class InterpreterTest extends \PHPUnit_Framework_TestCase
         $interpreter->interpret($this->expectedLine);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testInvalidCallable()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $interpreter = new Interpreter();
 
         $interpreter->addObserver('dummy');

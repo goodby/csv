@@ -10,7 +10,7 @@ class ConvertMbstringEncoding extends php_user_filter
     /**
      * @var string
      */
-    const FILTER_NAMESPACE = 'convert.mbstring.encoding.';
+    public const FILTER_NAMESPACE = 'convert.mbstring.encoding.';
 
     /**
      * @var bool
@@ -46,7 +46,7 @@ class ConvertMbstringEncoding extends php_user_filter
             return;
         }
 
-        if ( stream_filter_register(self::getFilterName(), __CLASS__) === false ) {
+        if ( stream_filter_register(self::getFilterName(), self::class) === false ) {
             throw new RuntimeException('Failed to register stream filter: '.self::getFilterName());
         }
 
@@ -84,8 +84,8 @@ class ConvertMbstringEncoding extends php_user_filter
             return false;
         }
 
-        $this->fromCharset = isset($matches['from']) ? $matches['from'] : 'auto';
-        $this->toCharset   = isset($matches['to'])   ? $matches['to']   : mb_internal_encoding();
+        $this->fromCharset = $matches['from'] ?? 'auto';
+        $this->toCharset   = $matches['to'] ?? mb_internal_encoding();
 
         return true;
     }

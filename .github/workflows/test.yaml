@@ -1,0 +1,56 @@
+name: Test
+
+on:
+    pull_request: ~
+    push:
+        branches:
+            - 'master'
+    schedule:
+        - cron: "0 0 * * *"
+
+jobs:
+    test:
+        name: "Test ${{ matrix.php-version }}"
+        runs-on: ubuntu-latest
+
+        env:
+            GOODBY_CSV_TEST_DB_HOST_DEFAULT: "127.0.0.1"
+            GOODBY_CSV_TEST_DB_NAME_DEFAULT: "goodby_csv_test"
+            GOODBY_CSV_TEST_DB_USER_DEFAULT: "root"
+            GOODBY_CSV_TEST_DB_PASS_DEFAULT: "root"
+
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                    - php-version: '7.2'
+                    - php-version: '7.3'
+                    - php-version: '7.4'
+                    - php-version: '8.0'
+                    - php-version: '8.1'
+        services:
+            mysql:
+                image: mysql:5.7
+                env:
+                    MYSQL_ROOT_PASSWORD: root
+                ports:
+                  - 3306:3306
+                options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=5
+
+        steps:
+            - name: Checkout project
+              uses: actions/checkout@v2
+
+            - name: Install and configure PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: ${{ matrix.php-version }}
+                  extensions: 'ctype, iconv'
+                  tools: composer:v2
+                  coverage: none
+
+            - name: Install composer dependencies
+              uses: ramsey/composer-install@v1
+
+            - name: Run tests
+              run: vendor/bin/phpunit

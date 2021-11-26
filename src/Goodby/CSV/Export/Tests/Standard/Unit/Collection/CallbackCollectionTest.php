@@ -3,16 +3,16 @@
 namespace Goodby\CSV\Export\Tests\Standard\Unit\Collection;
 
 use Goodby\CSV\Export\Standard\Collection\CallbackCollection;
-use Goodby\CSV\Export\Tests\Standard\Unit\Collection\SampleAggIterator;
+use PHPUnit\Framework\TestCase;
 
-class CallbackCollectionTest extends \PHPUnit_Framework_TestCase
+class CallbackCollectionTest extends TestCase
 {
-	public function testSample()
-	{
-        $data = array();
-        $data[] = array('user', 'name1');
-        $data[] = array('user', 'name2');
-        $data[] = array('user', 'name3');
+    public function testSample()
+    {
+        $data = [];
+        $data[] = ['user', 'name1'];
+        $data[] = ['user', 'name2'];
+        $data[] = ['user', 'name3'];
 
         $collection = new CallbackCollection($data, function($mixed) {
             return $mixed;
@@ -20,31 +20,30 @@ class CallbackCollectionTest extends \PHPUnit_Framework_TestCase
 
         $index = 1;
         foreach ($collection as $each) {
-            $this->assertEquals($each[0], 'user');
-            $this->assertEquals($each[1], 'name' . $index);
-            $index++;
+            static::assertEquals($each[0], 'user');
+            static::assertEquals($each[1], 'name' . $index);
+            ++$index;
         }
-	}
-	
-	public function testIteratorAggregate()
-	{
-	
-		$data = array();
-        $data[] = array('user', 'name1');
-        $data[] = array('user', 'name2');
-        $data[] = array('user', 'name3');
-	
-		$iterator = new SampleAggIterator($data);
-		
-		$collection = new CallbackCollection($iterator, function($mixed) {
+    }
+
+    public function testIteratorAggregate()
+    {
+        $data = [];
+        $data[] = ['user', 'name1'];
+        $data[] = ['user', 'name2'];
+        $data[] = ['user', 'name3'];
+
+        $iterator = new SampleAggIterator($data);
+
+        $collection = new CallbackCollection($iterator, function($mixed) {
             return $mixed;
         });
-		
-		$index = 1;
+
+        $index = 1;
         foreach ($collection as $each) {
-            $this->assertEquals($each[0], 'user');
-            $this->assertEquals($each[1], 'name' . $index);
-            $index++;
+            static::assertEquals($each[0], 'user');
+            static::assertEquals($each[1], 'name' . $index);
+            ++$index;
         }
-	}
+    }
 }

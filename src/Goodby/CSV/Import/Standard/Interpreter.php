@@ -31,7 +31,7 @@ class Interpreter implements InterpreterInterface
      *
      * @param $line
      * @return void
-     * @throws \Goodby\CSV\Import\Protocol\Exception\InvalidLexicalException
+     * @throws InvalidLexicalException
      */
     public function interpret($line)
     {
@@ -105,7 +105,7 @@ class Interpreter implements InterpreterInterface
             return;
         }
 
-        $current = count($line);
+        $current = is_array($line) || $line instanceof \Countable ? count($line) : 0;
 
         if ($this->rowConsistency === null) {
             $this->rowConsistency = $current;
