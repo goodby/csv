@@ -1,31 +1,40 @@
 name: Test
 
 on:
-  pull_request: ~
-  push: ~
-  schedule:
-    - cron: "0 0 * * *"
+    pull_request: ~
+    push: ~
+    schedule:
+        - cron: "0 0 * * *"
 
 jobs:
-  test:
-    name: "Test"
+    test:
+        name: "Test"
 
-    runs-on: ubuntu-latest
+        runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout project
-        uses: actions/checkout@v2
+        services:
+            mysql:
+                image: mysql:5.7
+                env:
+                    MYSQL_ROOT_PASSWORD: root
+               ports:
+                  - 3306:3306
+               options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=5
 
-      - name: Install and configure PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: 7.4
-          extensions: 'ctype, iconv'
-          tools: composer:v2
-          coverage: none
+        steps:
+            - name: Checkout project
+              uses: actions/checkout@v2
 
-      - name: Install composer dependencies
-        uses: ramsey/composer-install@v1
+            - name: Install and configure PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: 7.4
+                  extensions: 'ctype, iconv'
+                  tools: composer:v2
+                  coverage: none
 
-      - name: Run tests
-        run: vendor/bin/phpunit
+            - name: Install composer dependencies
+              uses: ramsey/composer-install@v1
+
+            - name: Run tests
+              run: vendor/bin/phpunit
