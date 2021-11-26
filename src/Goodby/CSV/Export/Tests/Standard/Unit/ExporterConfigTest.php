@@ -3,61 +3,62 @@
 namespace Goodby\CSV\Export\Tests\Standard\Unit;
 
 use Goodby\CSV\Export\Standard\ExporterConfig;
+use PHPUnit\Framework\TestCase;
 
-class ExporterConfigTest extends \PHPUnit_Framework_TestCase
+class ExporterConfigTest extends TestCase
 {
     public function testDelimiter()
     {
         $config = new ExporterConfig();
-        $this->assertSame(',', $config->getDelimiter());
-        $this->assertSame('del', $config->setDelimiter('del')->getDelimiter());
+        static::assertSame(',', $config->getDelimiter());
+        static::assertSame('del', $config->setDelimiter('del')->getDelimiter());
     }
 
     public function testEnclosure()
     {
         $config = new ExporterConfig();
-        $this->assertSame('"', $config->getEnclosure());
-        $this->assertSame('enc', $config->setEnclosure('enc')->getEnclosure());
+        static::assertSame('"', $config->getEnclosure());
+        static::assertSame('enc', $config->setEnclosure('enc')->getEnclosure());
     }
 
     public function testEscape()
     {
         $config = new ExporterConfig();
-        $this->assertSame('\\', $config->getEscape());
-        $this->assertSame('esc', $config->setEscape('esc')->getEscape());
+        static::assertSame('\\', $config->getEscape());
+        static::assertSame('esc', $config->setEscape('esc')->getEscape());
     }
 
     public function testNewline()
     {
         $config = new ExporterConfig();
-        $this->assertSame("\r\n", $config->getNewline());
-        $this->assertSame("\r", $config->setNewline("\r")->getNewline());
+        static::assertSame("\r\n", $config->getNewline());
+        static::assertSame("\r", $config->setNewline("\r")->getNewline());
     }
 
     public function testFromCharset()
     {
         $config = new ExporterConfig();
-        $this->assertSame('auto', $config->getFromCharset());
-        $this->assertSame('UTF-8', $config->setFromCharset('UTF-8')->getFromCharset());
+        static::assertSame('auto', $config->getFromCharset());
+        static::assertSame('UTF-8', $config->setFromCharset('UTF-8')->getFromCharset());
     }
 
     public function testToCharset()
     {
         $config = new ExporterConfig();
-        $this->assertSame(null, $config->getToCharset());
-        $this->assertSame('UTF-8', $config->setToCharset('UTF-8')->getToCharset());
+        static::assertSame(null, $config->getToCharset());
+        static::assertSame('UTF-8', $config->setToCharset('UTF-8')->getToCharset());
     }
 
     public function testColumnHeaders()
     {
-        $columnHeaders = array(
+        $columnHeaders = [
             'Header 1',
             'Header 2',
             'Header 3',
-        );
+        ];
 
         $config = new ExporterConfig();
-        $this->assertSame(array(), $config->getColumnHeaders());
-        $this->assertSame($columnHeaders, $config->setColumnHeaders($columnHeaders)->getColumnHeaders());
+        static::assertSame([], $config->getColumnHeaders());
+        static::assertSame($columnHeaders, $config->setColumnHeaders($columnHeaders)->getColumnHeaders());
     }
 }

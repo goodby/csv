@@ -2,17 +2,24 @@
 
 namespace Goodby\CSV\Import\Tests\Protocol;
 
+use Goodby\CSV\Import\Protocol\Exception\CsvFileNotFoundException;
+use Goodby\CSV\Import\Protocol\InterpreterInterface;
+use Goodby\CSV\Import\Protocol\LexerInterface;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Mockery as m;
+use PHPUnit\Framework\TestCase;
 
 /**
- * unit test for CSV Lexer
+ * unit test for CSV Lexer.
  */
-class LexerTest extends \PHPUnit_Framework_TestCase
+class LexerTest extends TestCase
 {
+    use MockeryPHPUnitIntegration;
+
     public function testInterface()
     {
-        $lexer = m::mock('\Goodby\CSV\Import\Protocol\LexerInterface');
-        $interpreter = m::mock('\Goodby\CSV\Import\Protocol\InterpreterInterface');
+        $lexer = m::mock(LexerInterface::class);
+        $interpreter = m::mock(InterpreterInterface::class);
 
         $path = 'dummy.csv';
 
@@ -21,19 +28,17 @@ class LexerTest extends \PHPUnit_Framework_TestCase
         $lexer->parse($path, $interpreter);
     }
 
-    /**
-     * @expectedException \Goodby\CSV\Import\Protocol\Exception\CsvFileNotFoundException
-     */
     public function testCsvFileNotFound()
     {
-        $lexer       = m::mock('\Goodby\CSV\Import\Protocol\LexerInterface');
-        $interpreter = m::mock('\Goodby\CSV\Import\Protocol\InterpreterInterface');
+        $this->expectException(CsvFileNotFoundException::class);
+        $lexer = m::mock(LexerInterface::class);
+        $interpreter = m::mock(InterpreterInterface::class);
 
         $path = 'invalid_dummy.csv';
 
         $lexer->shouldReceive('parse')
             ->with($path, $interpreter)
-            ->andThrow('Goodby\CSV\Import\Protocol\Exception\CsvFileNotFoundException')
+            ->andThrow(CsvFileNotFoundException::class)
         ;
 
         $lexer->parse($path, $interpreter);

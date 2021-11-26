@@ -1,0 +1,31 @@
+name: Test
+
+on:
+  pull_request: ~
+  push: ~
+  schedule:
+    - cron: "0 0 * * *"
+
+jobs:
+  test:
+    name: "Test"
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v2
+
+      - name: Install and configure PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.4
+          extensions: 'ctype, iconv'
+          tools: composer:v2
+          coverage: none
+
+      - name: Install composer dependencies
+        uses: ramsey/composer-install@v1
+
+      - name: Run tests
+        run: vendor/bin/phpunit
